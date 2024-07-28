@@ -1,0 +1,13 @@
+﻿@inherits OwningComponentBase
+
+<EditForm EditContext="@Context" OnValidSubmit="Submit">
+    <div class="@Class">
+        @FromControls
+    </div>
+    @if (ShowSave == true)
+    {
+        <div>
+            @FormButtons
+        </div>
+    }
+</EditForm>

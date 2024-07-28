@@ -1,7 +1,122 @@
 ﻿@page "/"
 
+@using HealthcareManager.Components.Account.Pages.Components.Forms;
+@inject NavigationManager Navigation
+
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<link href="css/home.css" rel="stylesheet">
 
-Welcome to your new app.
+<div class="header">
+    <h1>Welcome to Healthcare Manager</h1>
+    <p>Your health, our priority</p>
+</div>
+
+<div class="container features">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="feature text-center" data-toggle="modal" data-target="#manageAppointmentsModal">
+                <div class="feature-icon">
+                    <i class="bi bi-person-check"></i>
+                </div>
+                <h3>Manage Appointments</h3>
+                <p>Schedule and manage your medical appointments with ease.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature text-center" data-toggle="modal" data-target="#medicalRecordsModal">
+                <div class="feature-icon">
+                    <i class="bi bi-file-medical"></i>
+                </div>
+                <h3>Medical Records</h3>
+                <p>Access and update your medical records securely.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature text-center" data-toggle="modal" data-target="#consultationsModal">
+                <div class="feature-icon">
+                    <i class="bi bi-chat-dots"></i>
+                </div>
+                <h3>Consultations</h3>
+                <p>Get in touch with healthcare professionals for consultations.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature text-center" data-toggle="modal" data-target="#userDataModal">
+                <div class="feature-icon">
+                    <i class="bi bi-chat-dots"></i>
+                </div>
+                <h3> <a href="/Account/Register/Data">Enter User Data</a></h3>
+                <p>Add a new form for Todays visit</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code{
+    private void NavigateToDataModel()
+    {
+        Navigation.NavigateTo("/Account/Register/Data");
+    }
+}
+
+<style>
+    /* home.css */
+
+    .header {
+        background-color: #4CAF50;
+        color: white;
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+        .header h1 {
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+        }
+
+    .features {
+        margin-top: 2rem;
+    }
+
+    .feature {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer; /* Add pointer cursor to indicate clickable elements */
+        transition: transform 0.3s ease-in-out; /* Add transition for smooth animation */
+    }
+
+        .feature:hover {
+            transform: scale(1.05); /* Scale up slightly on hover */
+        }
+
+        .feature h3 {
+            margin-bottom: 1rem;
+        }
+
+        .feature p {
+            margin-bottom: 1rem;
+        }
+
+    .feature-icon {
+        font-size: 3rem;
+        color: #4CAF50;
+    }
+
+    /* Hover effect for modal dialogs */
+    .hover-modal .modal-content {
+        transition: transform 0.3s ease-in-out; /* Add transition for smooth animation */
+    }
+
+    .hover-modal:hover .modal-content {
+        transform: scale(1.05); /* Scale up slightly on hover */
+    }
+</style>

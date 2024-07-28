@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Mono.TextTemplating;
 
 namespace HealthcareManager.Data
 {
@@ -6,5 +8,4 @@ namespace HealthcareManager.Data
     public class ApplicationUser : IdentityUser
     {
     }
-
 }

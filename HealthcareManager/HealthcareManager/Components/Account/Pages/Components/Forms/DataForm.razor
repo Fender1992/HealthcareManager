@@ -1,0 +1,124 @@
+﻿@page "/Account/Register/Data"
+@using HealthcareManager.Components.Account.Pages.DTO
+@using HealthcareManager.Data.Models
+@using HealthcareManager.Data
+
+@inject ApplicationDbContext dbContext
+<AuthorizeView>
+    <Authorized>
+        <h3>DataForm</h3>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h1>Data Form</h1>
+                        </div>
+                        <span>Date : @DateTime.Now</span>
+                        <div class="card-body">
+                            <EditForm Model="Model" method="post" OnValidSubmit="SubmitUserData" FormName="Data-Form" Context="_editContext">
+                                <DataAnnotationsValidator />
+                                <h2>Submit a new form.</h2>
+                                <hr />
+                                <ValidationSummary class="text-danger" role="alert" />
+                                <div class="form-floating mb-3">
+                                    <InputText @bind-Value="Model.FirstName" class="form-control" autocomplete="firstname" aria-required="true" placeholder="John" id="firstname" />
+                                    <label for="firstname">First Name</label>
+                                    <ValidationMessage For="() => Model.FirstName" class="text-danger" />
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <InputText @bind-Value="Model.LastName" class="form-control" autocomplete="lastname" aria-required="true" placeholder="Doe" id="lastname" />
+                                    <label for="lastname">Last Name</label>
+                                    <ValidationMessage For="() => Model.LastName" class="text-danger" />
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <InputText @bind-Value="Model.Address" class="form-control" autocomplete="address" aria-required="true" placeholder="123 street road" id="address" />
+                                    <label for="address">Address</label>
+                                    <ValidationMessage For="() => Model.Address" class="text-danger" />
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <InputNumber @bind-Value="Model.PostalCode" class="form-control" autocomplete="postalcode" aria-required="true" placeholder="12345" id="postalcode" />
+                                    <label for="postalcode">Zip Code</label>
+                                    <ValidationMessage For="() => Model.PostalCode" class="text-danger" />
+                                </div>
+                                <h3>Vitals</h3>
+                                <hr />
+                                <div class="form-floating mb-3">
+                                    <InputText @bind-Value="Model.BloodPressure" class="form-control" autocomplete="bloodpressure" aria-required="true" placeholder="120/80" id="bloodpressure" />
+                                    <label for="bloodpressure">Blood Pressure (Sys/Dia)</label>
+                                    <ValidationMessage For="() => Model.BloodPressure" class="text-danger" />
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <InputNumber @bind-Value="Model.HeartRate" class="form-control" autocomplete="heartrate" aria-required="true" placeholder="80" id="heartrate" />
+                                    <label for="heartrate">Heart Rate (bpm)</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <InputNumber @bind-Value="Model.PulseOximetry" class="form-control" autocomplete="pulseox" aria-required="true" placeholder="99" id="pusleox" />
+                                    <span class="input-group-text">%</span>
+                                    <label for="pulseox">Pulse Oximetry</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <InputNumber @bind-Value="Model.Height" class="form-control" autocomplete="height" aria-required="true" placeholder="height" id="height" />
+                                    <label for="height">Height (in)</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <InputNumber @bind-Value="Model.Weight" class="form-control" autocomplete="weight" aria-required="true" placeholder="weight" id="weight" />
+                                    <label for="weight">Weight (lbs)</label>
+                                </div>
+                                <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+        
+
+
+@code {
+    public EditContext? _editContext { get; set; }
+    public ILogger<DataForm> Logger { get; set; }
+    [SupplyParameterFromForm]
+    private UserFormDTO Model { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        Model ??= new();
+    }
+
+    public async Task SubmitUserData(EditContext editContext)
+    {
+        _editContext = editContext;
+        if (editContext.Validate())
+        {
+            try
+            {
+                var newForm = new UserFormDTO
+                    {
+                        FirstName = Model.FirstName,
+                        LastName = Model.LastName,
+                        Address = Model.Address,
+                        PostalCode = Model.PostalCode,
+                        BloodPressure = Model.BloodPressure,
+                        HeartRate = Model.HeartRate,
+                        Temperature = Model.Temperature,
+                        Height = Model.Height,
+                        Weight = Model.Height,
+                        PulseOximetry = Model.PulseOximetry
+                    };
+
+                await dbContext.AddAsync<UserFormDTO>(newForm);
+                await dbContext.SaveChangesAsync();
+
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, e.Message);
+            }
+        }
+    }
+}
