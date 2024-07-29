@@ -1,4 +1,4 @@
-﻿using HealthcareManager.Data.Models;
+using HealthcareManager.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,35 +19,21 @@ namespace HealthcareManager.Components.Account.Pages.DTO
         public string? Address { get; set; }
         [Required(ErrorMessage = "Postal code is required")]
         public int PostalCode { get; set; }
-
-        [NotMapped]
-        public string? BloodPressure
-        {
-            get => $"{BloodPressureSystolic}/{BloodPressureDiastolic}";
-            set
-            {
-                var values = value?.Split('/');
-                if (values?.Length == 2 &&
-                    int.TryParse(values[0], out var systolic) &&
-                    int.TryParse(values[1], out var diastolic))
-                {
-                    BloodPressureSystolic = systolic;
-                    BloodPressureDiastolic = diastolic;
-                }
-            }
-        }
-
-        [Required(ErrorMessage = "Systolic blood pressure is required")]
-        public int BloodPressureSystolic { get; set; }
-
-        [Required(ErrorMessage = "Diastolic blood pressure is required")]
-        public int BloodPressureDiastolic { get; set; }
+        public DateTime ? CreatedDate { get; set; }
+        [Required(ErrorMessage = "Blood pressure is required")]
+        public string? BloodPressure { get; set; }
+        
+        [Required(ErrorMessage = "Heart rate is required")]
         public int HeartRate { get; set; }
+        [Required(ErrorMessage = "Temperature is required")]
         public double Temperature { get; set; }
+        [Required(ErrorMessage = "Pulse Ox is required")]
         public int PulseOximetry { get; set; }
+        [Required(ErrorMessage = "Height is required")]
         public int Height { get; set; }
-        public int Weight { get; set; }
-        public Roles Role { get; set; } = Roles.User;
+        [Required(ErrorMessage = "Weight is required")]
+        public long Weight { get; set; }
+        public string Role { get; set; } = "Patient";
     }
 
     

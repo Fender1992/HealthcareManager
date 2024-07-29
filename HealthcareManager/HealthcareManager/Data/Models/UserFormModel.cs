@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealthcareManager.Data.Models
@@ -17,42 +17,14 @@ namespace HealthcareManager.Data.Models
         public string? Address { get; set; }
         [Required(ErrorMessage = "Postal code is required")]
         public int PostalCode { get; set; }
-        [NotMapped]
-        public string? BloodPressure
-        {
-            get => $"{BloodPressureSystolic}/{BloodPressureDiastolic}";
-            set
-            {
-                var values = value?.Split('/');
-                if (values?.Length == 2 &&
-                    int.TryParse(values[0], out var systolic) &&
-                    int.TryParse(values[1], out var diastolic))
-                {
-                    BloodPressureSystolic = systolic;
-                    BloodPressureDiastolic = diastolic;
-                }
-            }
-        }
-
-        [Required(ErrorMessage = "Systolic blood pressure is required")]
-        public int BloodPressureSystolic { get; set; }
-
-        [Required(ErrorMessage = "Diastolic blood pressure is required")]
-        public int BloodPressureDiastolic { get; set; }
+        [Required(ErrorMessage = "Blood pressure is required")]
+        public string? BloodPressure { get; set; }
         public int HeartRate { get; set; }
         public double Temperature { get; set; }
         public int PulseOximetry { get; set; }
         public int Height { get; set; }
-        public int Weight { get; set; }
-        public Roles Role { get; set; } = Roles.User;
+        public long Weight { get; set; }
+        public string Role { get; set; } 
     }
-
     
-    
-    public enum Roles
-    {
-        None,
-        User,
-        Admin
-    }
 }

@@ -1,12 +1,16 @@
-﻿@page "/Account/Register/Data"
+@page "/Account/Register/Data"
 @using HealthcareManager.Components.Account.Pages.DTO
 @using HealthcareManager.Data.Models
 @using HealthcareManager.Data
+@using HealthcareManager.Components.Notifications
 
+@inject ILogger<DataForm> Logger
 @inject ApplicationDbContext dbContext
+@inject NavigationManager NavigationManager
+
 <AuthorizeView>
     <Authorized>
-        <h3>DataForm</h3>
+        <h3>Encounter Form</h3>
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -14,13 +18,16 @@
                         <div class="card-header">
                             <h1>Data Form</h1>
                         </div>
-                        <span>Date : @DateTime.Now</span>
                         <div class="card-body">
                             <EditForm Model="Model" method="post" OnValidSubmit="SubmitUserData" FormName="Data-Form" Context="_editContext">
                                 <DataAnnotationsValidator />
                                 <h2>Submit a new form.</h2>
                                 <hr />
                                 <ValidationSummary class="text-danger" role="alert" />
+                                <div class="form-floating mb-3">
+                                    <InputDate @bind-Value="Model.CreatedDate" class="form-control" readonly />
+                                    <label for="createdDate">Created Date</label>
+                                </div>
                                 <div class="form-floating mb-3">
                                     <InputText @bind-Value="Model.FirstName" class="form-control" autocomplete="firstname" aria-required="true" placeholder="John" id="firstname" />
                                     <label for="firstname">First Name</label>
@@ -44,6 +51,11 @@
                                 <h3>Vitals</h3>
                                 <hr />
                                 <div class="form-floating mb-3">
+                                    <InputNumber @bind-Value="Model.Temperature" class="form-control" autocomplete="bloodpressure" aria-required="true" id="temperature" />
+                                    <label for="temperature">Temperature</label>
+                                    <ValidationMessage For="() => Model.Temperature" class="text-danger" />
+                                </div>
+                                <div class="form-floating mb-3">
                                     <InputText @bind-Value="Model.BloodPressure" class="form-control" autocomplete="bloodpressure" aria-required="true" placeholder="120/80" id="bloodpressure" />
                                     <label for="bloodpressure">Blood Pressure (Sys/Dia)</label>
                                     <ValidationMessage For="() => Model.BloodPressure" class="text-danger" />
@@ -54,7 +66,6 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <InputNumber @bind-Value="Model.PulseOximetry" class="form-control" autocomplete="pulseox" aria-required="true" placeholder="99" id="pusleox" />
-                                    <span class="input-group-text">%</span>
                                     <label for="pulseox">Pulse Oximetry</label>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -79,15 +90,18 @@
 
 
 @code {
+    [Inject]
+    protected ToastService ToastService { get; set; } = default!;
     public EditContext? _editContext { get; set; }
-    public ILogger<DataForm> Logger { get; set; }
     [SupplyParameterFromForm]
-    private UserFormDTO Model { get; set; }
+    private UserFormDTO Model { get; set; } = new UserFormDTO();
+    private string Roles { get; set; } = "Patient";
+
 
 
     protected override void OnInitialized()
     {
-        Model ??= new();
+        Model.CreatedDate = DateTime.Now;
     }
 
     public async Task SubmitUserData(EditContext editContext)
@@ -96,9 +110,12 @@
         if (editContext.Validate())
         {
             try
+                                
             {
+                Model.Role = "Patient";
                 var newForm = new UserFormDTO
                     {
+                        CreatedDate = Model.CreatedDate,
                         FirstName = Model.FirstName,
                         LastName = Model.LastName,
                         Address = Model.Address,
@@ -107,13 +124,16 @@
                         HeartRate = Model.HeartRate,
                         Temperature = Model.Temperature,
                         Height = Model.Height,
-                        Weight = Model.Height,
-                        PulseOximetry = Model.PulseOximetry
+                        Weight = Model.Weight,
+                        PulseOximetry = Model.PulseOximetry,
+                        Role = Model.Role
                     };
 
                 await dbContext.AddAsync<UserFormDTO>(newForm);
                 await dbContext.SaveChangesAsync();
 
+                
+                await InvokeAsync(() => NavigationManager.NavigateTo("/medical-records"));
             }
             catch (Exception e)
             {

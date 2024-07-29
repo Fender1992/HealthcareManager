@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthcareManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240726155010_Init")]
-    partial class Init
+    [Migration("20240729182525_UpdatedRole")]
+    partial class UpdatedRole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,9 @@ namespace HealthcareManager.Migrations
                     b.Property<int>("BloodPressureSystolic")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -61,13 +64,9 @@ namespace HealthcareManager.Migrations
                         .HasColumnType("nvarchar(75)");
 
                     b.Property<int>("PostalCode")
-                        .HasMaxLength(5)
                         .HasColumnType("int");
 
                     b.Property<int>("PulseOximetry")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<double>("Temperature")

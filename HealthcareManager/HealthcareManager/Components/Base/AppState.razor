@@ -1,5 +1,6 @@
-﻿@inject ProtectedSessionStorage Session
+@inject ProtectedSessionStorage Session
 @inject ProtectedLocalStorage Local
+@using HealthcareManager.Components.Account.Pages.DTO
 @using HealthcareManager.Data
 @inject IJSRuntime JSRuntime
 @inherits OwningComponentBase
@@ -18,7 +19,7 @@
     [Parameter]
     public RenderFragment Application { get; set; }
     public event Action OnChange;
-    internal ApplicationUser CurrentUser { get; private set; }
+    internal UserFormDTO CurrentUser { get; private set; }
     private bool Loading { get; set; } = false;
 
     protected override async Task OnInitializedAsync()

@@ -1,7 +1,10 @@
 using HealthcareManager.Client.Pages;
 using HealthcareManager.Components;
 using HealthcareManager.Components.Account;
+using HealthcareManager.Components.Notifications;
 using HealthcareManager.Data;
+using HealthcareManager.Data.Repositories;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBlazorBootstrap();
+builder.Services.AddScoped<SQLMedicalRecordsRepository>();
+
+builder.Services.AddTelerikBlazor();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -19,6 +25,8 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+
+builder.Services.AddSingleton<Notifications>();
 
 builder.Services.AddAuthentication(options =>
     {

@@ -1,0 +1,11 @@
+@using Telerik.Blazor
+@using Telerik.Blazor.Components
+<TelerikRootComponent IconType="@IconType.Svg"
+                    EnableRtl="false">
+    @ChildContent
+</TelerikRootComponent>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
