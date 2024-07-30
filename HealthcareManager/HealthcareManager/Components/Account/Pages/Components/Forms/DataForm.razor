@@ -2,7 +2,7 @@
 @using HealthcareManager.Components.Account.Pages.DTO
 @using HealthcareManager.Data.Models
 @using HealthcareManager.Data
-@using HealthcareManager.Components.Notifications
+@using Telerik.Blazor.Components
 
 @inject ILogger<DataForm> Logger
 @inject ApplicationDbContext dbContext
@@ -19,85 +19,98 @@
                             <h1>Data Form</h1>
                         </div>
                         <div class="card-body">
-                            <EditForm Model="Model" method="post" OnValidSubmit="SubmitUserData" FormName="Data-Form" Context="_editContext">
+                            <EditForm Model="Model" FormName="User-Data-Form" OnValidSubmit="SubmitUserData" Context="editContext">
                                 <DataAnnotationsValidator />
                                 <h2>Submit a new form.</h2>
                                 <hr />
                                 <ValidationSummary class="text-danger" role="alert" />
-                                <div class="form-floating mb-3">
-                                    <InputDate @bind-Value="Model.CreatedDate" class="form-control" readonly />
+
+                                <div class="form-group mb-3">
+                                    <TelerikDatePicker @bind-Value="Model.CreatedDate" ReadOnly="true" />
                                     <label for="createdDate">Created Date</label>
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputText @bind-Value="Model.FirstName" class="form-control" autocomplete="firstname" aria-required="true" placeholder="John" id="firstname" />
+
+                                <div class="form-group mb-3">
                                     <label for="firstname">First Name</label>
+                                    <TelerikTextBox @bind-Value="Model.FirstName" Placeholder="John" />
                                     <ValidationMessage For="() => Model.FirstName" class="text-danger" />
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputText @bind-Value="Model.LastName" class="form-control" autocomplete="lastname" aria-required="true" placeholder="Doe" id="lastname" />
+
+                                <div class="form-group mb-3">
                                     <label for="lastname">Last Name</label>
+                                    <TelerikTextBox @bind-Value="Model.LastName" Placeholder="Doe" />
                                     <ValidationMessage For="() => Model.LastName" class="text-danger" />
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputText @bind-Value="Model.Address" class="form-control" autocomplete="address" aria-required="true" placeholder="123 street road" id="address" />
+
+                                <div class="form-group mb-3">
                                     <label for="address">Address</label>
+                                    <TelerikTextBox @bind-Value="Model.Address" Placeholder="123 street road" />
                                     <ValidationMessage For="() => Model.Address" class="text-danger" />
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputNumber @bind-Value="Model.PostalCode" class="form-control" autocomplete="postalcode" aria-required="true" placeholder="12345" id="postalcode" />
+
+                                <div class="form-group mb-3">
                                     <label for="postalcode">Zip Code</label>
+                                    <TelerikNumericTextBox @bind-Value="Model.PostalCode" Format="N0" />
                                     <ValidationMessage For="() => Model.PostalCode" class="text-danger" />
                                 </div>
+
                                 <h3>Vitals</h3>
                                 <hr />
-                                <div class="form-floating mb-3">
-                                    <InputNumber @bind-Value="Model.Temperature" class="form-control" autocomplete="bloodpressure" aria-required="true" id="temperature" />
+
+                                <div class="form-group mb-3">
                                     <label for="temperature">Temperature</label>
+                                    <TelerikNumericTextBox @bind-Value="Model.Temperature" Format="N2" />
                                     <ValidationMessage For="() => Model.Temperature" class="text-danger" />
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputText @bind-Value="Model.BloodPressure" class="form-control" autocomplete="bloodpressure" aria-required="true" placeholder="120/80" id="bloodpressure" />
+
+                                <div class="form-group mb-3">
                                     <label for="bloodpressure">Blood Pressure (Sys/Dia)</label>
+                                    <TelerikTextBox @bind-Value="Model.BloodPressure" Placeholder="120/80" />
                                     <ValidationMessage For="() => Model.BloodPressure" class="text-danger" />
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputNumber @bind-Value="Model.HeartRate" class="form-control" autocomplete="heartrate" aria-required="true" placeholder="80" id="heartrate" />
+
+                                <div class="form-group mb-3">
                                     <label for="heartrate">Heart Rate (bpm)</label>
+                                    <TelerikNumericTextBox @bind-Value="Model.HeartRate" Format="N0" />
+                                    <ValidationMessage For="() => Model.HeartRate" class="text-danger" />
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputNumber @bind-Value="Model.PulseOximetry" class="form-control" autocomplete="pulseox" aria-required="true" placeholder="99" id="pusleox" />
+
+                                <div class="form-group mb-3">
                                     <label for="pulseox">Pulse Oximetry</label>
+                                    <TelerikNumericTextBox @bind-Value="Model.PulseOximetry" Format="N0" />
+                                    <ValidationMessage For="() => Model.PulseOximetry" class="text-danger" />
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputNumber @bind-Value="Model.Height" class="form-control" autocomplete="height" aria-required="true" placeholder="height" id="height" />
+
+                                <div class="form-group mb-3">
                                     <label for="height">Height (in)</label>
+                                    <TelerikNumericTextBox @bind-Value="Model.Height" Format="N0" />
+                                    <ValidationMessage For="() => Model.Height" class="text-danger" />
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <InputNumber @bind-Value="Model.Weight" class="form-control" autocomplete="weight" aria-required="true" placeholder="weight" id="weight" />
+
+                                <div class="form-group mb-3">
                                     <label for="weight">Weight (lbs)</label>
+                                    <TelerikNumericTextBox @bind-Value="Model.Weight" Format="N0" />
+                                    <ValidationMessage For="() => Model.Weight" class="text-danger" />
                                 </div>
-                                <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
+
+                                <button type="submit" class="btn btn-primary w-100">Submit</button>
                             </EditForm>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </Authorized>
 </AuthorizeView>
-        
-
 
 @code {
-    [Inject]
-    protected ToastService ToastService { get; set; } = default!;
     public EditContext? _editContext { get; set; }
-    [SupplyParameterFromForm]
-    private UserFormDTO Model { get; set; } = new UserFormDTO();
-    private string Roles { get; set; } = "Patient";
+    private UserFormDTO Model { get; set; }
 
-
+    public DataForm()
+    {
+        Model = new UserFormDTO();
+    }
 
     protected override void OnInitialized()
     {
@@ -110,7 +123,6 @@
         if (editContext.Validate())
         {
             try
-                                
             {
                 Model.Role = "Patient";
                 var newForm = new UserFormDTO
@@ -132,8 +144,7 @@
                 await dbContext.AddAsync<UserFormDTO>(newForm);
                 await dbContext.SaveChangesAsync();
 
-                
-                await InvokeAsync(() => NavigationManager.NavigateTo("/medical-records"));
+                await InvokeAsync(() => NavigationManager.NavigateTo("/Account/medical-records"));
             }
             catch (Exception e)
             {

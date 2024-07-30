@@ -1,7 +1,10 @@
 ﻿@page "/"
 
-@using HealthcareManager.Components.Account.Pages.Components.Forms;
+@using HealthcareManager.Components.Account.Pages.Components.Forms
+@using HealthcareManager.Services
 @inject NavigationManager Navigation
+@inject JsInteropService JsInteropService
+@inject AppEventHandler AppEventHandler
 
 <PageTitle>Home</PageTitle>
 
@@ -23,12 +26,13 @@
                 <p>Schedule and manage your medical appointments with ease.</p>
             </div>
         </div>
+
         <div class="col-md-4">
             <div class="feature text-center" data-toggle="modal" data-target="#medicalRecordsModal">
                 <div class="feature-icon">
                     <i class="bi bi-file-medical"></i>
                 </div>
-                <h3>Medical Records</h3>
+                <h3> <a href="/Account/medical-records">Medical Records</a> </h3>
                 <p>Access and update your medical records securely.</p>
             </div>
         </div>
@@ -53,9 +57,16 @@
     </div>
 </div>
 
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var dotNetObjectReference = DotNetObjectReference.Create(AppEventHandler);
+            await JsInteropService.InitializeAsync(dotNetObjectReference);
+        }
+    }
 
-
-@code{
     private void NavigateToDataModel()
     {
         Navigation.NavigateTo("/Account/Register/Data");

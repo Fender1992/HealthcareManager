@@ -1,22 +1,20 @@
-using HealthcareManager.Client.Pages;
 using HealthcareManager.Components;
 using HealthcareManager.Components.Account;
-using HealthcareManager.Components.Notifications;
 using HealthcareManager.Data;
 using HealthcareManager.Data.Repositories;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.JSInterop;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddBlazorBootstrap();
-builder.Services.AddScoped<SQLMedicalRecordsRepository>();
-
-builder.Services.AddTelerikBlazor();
 
 // Add services to the container.
+builder.Services.AddScoped<SQLMedicalRecordsRepository>();
+builder.Services.AddTelerikBlazor();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
@@ -26,13 +24,12 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
-builder.Services.AddSingleton<Notifications>();
 
 builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    })
+{
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+})
     .AddIdentityCookies();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -46,6 +43,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddScoped<JsInteropService>();
+builder.Services.AddSingleton<AppEventHandler>();
 
 var app = builder.Build();
 

@@ -5,11 +5,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-HealthcareManager-e8f81362-573e-4112-a355-95149be91d9f</UserSecretsId>
+    <BaseOutputPath>bin\Debug\net8.0\</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Components\_Host.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HealthcareManager.Client\HealthcareManager.Client.csproj" />
-    <PackageReference Include="Blazor.Bootstrap" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
@@ -24,6 +28,10 @@
 
   <ItemGroup>
     <Folder Include="Components\Account\Pages\Home\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Components\_Host.cshtml" />
   </ItemGroup>
 
 </Project>

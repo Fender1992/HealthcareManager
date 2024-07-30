@@ -1,6 +1,6 @@
-using BlazorBootstrap;
 using HealthcareManager.Components.Account.Pages.DTO;
 using HealthcareManager.Components.Account.Shared.Components;
+using HealthcareManager.Components.Account.Shared.Models;
 using HealthcareManager.Components.Base;
 using HealthcareManager.Data;
 using HealthcareManager.Data.Repositories;
@@ -42,8 +42,8 @@ namespace HealthcareManager.Components.Grids
         public EventCallback GetDocumentsHandler { get; set; }
         [Parameter]
         public EventCallback<Tuple<string,string>> MoveRecordHandler { get; set; }
-        public GridSettings Settings { get; set; } = new GridSettings();
-        public CustomGridTable<UserFormDTO> Grid {  get; set; }
+        public GridSettingsModel Settings { get; set; } = new GridSettingsModel();
+        public CustomGridTable<UserFormDTO?>? Grid {  get; set; }
         public bool ShowSubmit { get; set; } = false;
         private bool ShowReturn { get; set; } = false;
         private bool IsInfo { get; set; } = false;

@@ -3,6 +3,7 @@
 @using HealthcareManager.Data.Repositories
 @using Telerik.Blazor.Components
 @using Telerik.Blazor
+@using HealthcareManager.Data.ViewModels
 @inherits OwningComponentBase
 
 @inject NavigationManager NavigationManager
@@ -16,31 +17,24 @@
 }
 else
 {
-    <TelerikExpansionPanelList>
-        @foreach (var record in records)
-        {
-            <TelerikExpansionPanel>
-                <HeaderTemplate>
-                    <h5 class="mb-0">@record.CreatedDate @record.FirstName @record.LastName</h5>
-                </HeaderTemplate>
-                <ContentTemplate>
-                    <div class="card-body">
-                        <p><strong>Address:</strong> @record.Address</p>
-                        <p><strong>Postal Code:</strong> @record.PostalCode</p>
-                        <p><strong>Created Date:</strong> @record.CreatedDate?.ToString("g")</p>
-                        <p><strong>Blood Pressure:</strong> @record.BloodPressure</p>
-                        <p><strong>Heart Rate:</strong> @record.HeartRate</p>
-                        <p><strong>Temperature:</strong> @record.Temperature</p>
-                        <p><strong>Pulse Ox:</strong> @record.PulseOximetry</p>
-                        <p><strong>Height:</strong> @record.Height</p>
-                        <p><strong>Weight:</strong> @record.Weight</p>
-                        <p><strong>Role:</strong> @record.Role</p>
-                    </div>
-                </ContentTemplate>
-            </TelerikExpansionPanel>
-        }
-    </TelerikExpansionPanelList>
-    <TelerikButton Icon="FontIcon.PlusCircle" OnClick="@Navigate">Add Record</TelerikButton>
+    <TelerikGrid Data="@records" Pageable="true" Sortable="true" FilterMode="@GridFilterMode.FilterMenu">
+        <GridToolBarTemplate>
+            <TelerikButton OnClick="@Navigate" Icon="FontIcon.Plus">Add Record</TelerikButton>
+        </GridToolBarTemplate>
+        <GridColumns>
+            <GridColumn Filterable="true" Sortable="true" Field="CreatedDate" Title="Create Date" />
+            <GridColumn Filterable="true" Sortable="true" Field="FirstName" Title="First Name" />
+            <GridColumn Filterable="true" Sortable="true" Field="LastName" Title="Last Name" />
+            <GridColumn Filterable="true" Sortable="true" Field="Address" Title="Address" />
+            <GridColumn Filterable="true" Sortable="true" Field="PostalCode" Title="Postal Code" />
+            <GridColumn Filterable="true" Sortable="true" Field="BloodPressure" Title="Blood Pressure" />
+            <GridColumn Filterable="true" Sortable="true" Field="HeartRate" Title="Heart Rate" />
+            <GridColumn Filterable="true" Sortable="true" Field="Temperature" Title="Temperature" />
+            <GridColumn Filterable="true" Sortable="true" Field="Height" Title="Height" />
+            <GridColumn Filterable="true" Sortable="true" Field="Weight" Title="Weight" />
+            <GridColumn Filterable="true" Sortable="true" Field="PulseOximetry" Title="Pulse Ox" />
+        </GridColumns>
+    </TelerikGrid>
 }
 
 @code {
@@ -49,7 +43,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         records = await MedicalRecordsRepository.GetAllRecordsAsync();
-        StateHasChanged();
     }
 
     private void Navigate()
