@@ -18,6 +18,7 @@
     protected ILogger<AppState> Logger { get; set; }
     [Parameter]
     public RenderFragment Application { get; set; }
+    public NotificationUtility Notifier { get; set; }
     public event Action OnChange;
     internal UserFormDTO CurrentUser { get; private set; }
     private bool Loading { get; set; } = false;

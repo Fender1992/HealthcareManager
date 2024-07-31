@@ -1,5 +1,6 @@
 @page "/Account/Register/Data"
 @using HealthcareManager.Components.Account.Pages.DTO
+@using HealthcareManager.Components.Base
 @using HealthcareManager.Data.Models
 @using HealthcareManager.Data
 @using Telerik.Blazor.Components
@@ -106,6 +107,8 @@
 @code {
     public EditContext? _editContext { get; set; }
     private UserFormDTO Model { get; set; }
+    [CascadingParameter]
+    private AppState? AppState { get; set; }
 
     public DataForm()
     {
@@ -144,7 +147,9 @@
                 await dbContext.AddAsync<UserFormDTO>(newForm);
                 await dbContext.SaveChangesAsync();
 
-                await InvokeAsync(() => NavigationManager.NavigateTo("/Account/medical-records"));
+                AppState.Notifier.SuccessNotification("Patient encounter successfully saved");
+
+                AppState.NavigationManager.NavigateTo("/");
             }
             catch (Exception e)
             {
