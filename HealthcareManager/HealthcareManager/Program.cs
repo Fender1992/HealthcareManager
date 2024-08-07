@@ -2,7 +2,8 @@ using HealthcareManager.Components;
 using HealthcareManager.Components.Account;
 using HealthcareManager.Components.Base;
 using HealthcareManager.Data;
-using HealthcareManager.Data.Repositories;
+using HealthcareManager.Repositories;
+using HealthcareManager.Repositories.ProviderRepository;
 using HealthcareManager.Utility;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -18,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<SQLMedicalRecordsRepository>();
 builder.Services.AddTelerikBlazor();
 builder.Services.AddScoped<TelerikNotification>();
+builder.Services.AddScoped<ProviderSQLRepositoryActions>();
 
 builder.Services.AddScoped<NotificationUtility>();
 builder.Services.AddScoped<AppState>();

@@ -1,6 +1,6 @@
 using System.Reflection.Metadata;
 
-namespace HealthcareManager.Components.Account.Pages.DTO
+namespace HealthcareManager.Data.DTO
 {
     public class DocumentDTO
     {
@@ -11,7 +11,7 @@ namespace HealthcareManager.Components.Account.Pages.DTO
         public string Extension { get; set; }
         public bool IsArchived { get; set; }
         public int? DocumentCategoryId { get; set; }
-        public string DocumentCategory {  get; set; }
+        public string DocumentCategory { get; set; }
         public int? DocumentTypeId { get; set; }
         public string? DocumentType { get; set; }
         //protected override Func<IQueryable<HealthcareManager.Components.Account.Shared.Models.Document>, IQueryable<DocumentDTO>> Select => _documents => _documents.Select(_documents => new DocumentDTO

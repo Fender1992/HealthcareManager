@@ -2,7 +2,7 @@ using HealthcareManager.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthcareManager.Components.Account.Pages.DTO
+namespace HealthcareManager.Data.DTO
 {
     public class UserFormDTO
     {
@@ -19,10 +19,10 @@ namespace HealthcareManager.Components.Account.Pages.DTO
         public string? Address { get; set; }
         [Required(ErrorMessage = "Postal code is required")]
         public int PostalCode { get; set; }
-        public DateTime ? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         [Required(ErrorMessage = "Blood pressure is required")]
         public string? BloodPressure { get; set; }
-        
+
         [Required(ErrorMessage = "Heart rate is required")]
         public int HeartRate { get; set; }
         [Required(ErrorMessage = "Temperature is required")]
@@ -36,5 +36,5 @@ namespace HealthcareManager.Components.Account.Pages.DTO
         public string Role { get; set; } = "Patient";
     }
 
-    
+
 }

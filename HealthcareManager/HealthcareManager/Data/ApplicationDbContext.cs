@@ -1,4 +1,4 @@
-using HealthcareManager.Components.Account.Pages.DTO;
+using HealthcareManager.Data.DTO;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,5 +11,9 @@ namespace HealthcareManager.Data
         }
 
         public DbSet<UserFormDTO>? userForm { get; set; }
+        public DbSet<ProviderModelDto> Providers
+        {
+            get; set;
+        }
     }
 }

@@ -1,0 +1,13 @@
+@code {
+    [Parameter] public DateTime Min { get; set; } = DateTime.Now;
+    [Parameter] public DateTime Max { get; set; } = new DateTime(2034, 1, 1);
+    [Parameter] public DateTime CurrDate { get; set; } = DateTime.Now;
+    [Parameter] public EventCallback<DateTime> DateChanged { get; set; }
+
+    private void HandleDateChange(DateTime newValue)
+    {
+        DateChanged.InvokeAsync(newValue);
+    }
+}
+
+<TelerikCalendar Min="@Min" Max="@Max" @bind-Date="@CurrDate" ValueChanged="@HandleDateChange"></TelerikCalendar>

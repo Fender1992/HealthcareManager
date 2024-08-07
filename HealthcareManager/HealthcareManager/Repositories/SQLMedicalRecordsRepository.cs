@@ -1,7 +1,8 @@
-using HealthcareManager.Components.Account.Pages.DTO;
+using HealthcareManager.Data;
+using HealthcareManager.Data.DTO;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthcareManager.Data.Repositories
+namespace HealthcareManager.Repositories
 {
     public class SQLMedicalRecordsRepository
     {

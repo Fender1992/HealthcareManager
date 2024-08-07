@@ -1,9 +1,9 @@
-using HealthcareManager.Components.Account.Pages.DTO;
 using HealthcareManager.Components.Account.Shared.Components;
 using HealthcareManager.Components.Account.Shared.Models;
 using HealthcareManager.Components.Base;
 using HealthcareManager.Data;
-using HealthcareManager.Data.Repositories;
+using HealthcareManager.Data.DTO;
+using HealthcareManager.Repositories;
 using Microsoft.AspNetCore.Components;
 
 

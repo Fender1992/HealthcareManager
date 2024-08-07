@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
     <Content Remove="Components\_Host.cshtml" />
   </ItemGroup>
 
@@ -31,7 +32,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Components\Account\Shared\Components\CalendarGrid.razor" />
     <None Include="Components\_Host.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
   </ItemGroup>
 
 </Project>

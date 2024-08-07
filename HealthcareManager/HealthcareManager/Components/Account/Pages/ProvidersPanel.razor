@@ -1,0 +1,137 @@
+@page "/Account/providers"
+@inject ProviderSQLRepositoryActions ProviderSQLRepositoryActions
+
+
+<div class="page-title">
+    Please select a provider from the list below
+</div>
+
+@if (ProvidersBySpecialty != null && ProvidersBySpecialty.Any())
+{
+    int specialtyIndex = 0;
+
+    @foreach (var specialtyGroup in ProvidersBySpecialty)
+    {
+        <div class="specialty-group @((specialtyIndex % 2 == 0) ? "even" : "odd")">
+            <h3>@specialtyGroup.Key</h3>
+            <div class="specialty-group">
+                @foreach (var provider in specialtyGroup)
+                {
+                    <div class="provider-card">
+                        <TelerikCard Width="200px" class="telerik-card">
+                            <CardHeader class="card-header">
+                                <CardTitle class="card-title">@provider.ProviderName</CardTitle>
+                            </CardHeader>
+                            <CardImage Src="@provider.ImageUrl"></CardImage>
+                            <CardBody class="card-body">
+                                <CardTitle class="card-title">@provider.ProviderSpecialty</CardTitle>
+                                <CardSubTitle class="card-subtitle">@provider.YearsExperience years</CardSubTitle>
+                                <CardSubTitle class="card-subtitle">Certified on @provider.CertificationDate.ToShortDateString()</CardSubTitle>
+                            </CardBody>
+                            <CardActions Layout="@CardActionsLayout.Stretch">
+                                <TelerikButton OnClick="@(() => ShowPopup())" Class="popup-target">Select</TelerikButton>
+                            </CardActions>
+                        </TelerikCard>
+                    </div>
+                }
+            </div>
+
+        </div>
+        specialtyIndex++;
+    }
+    <TelerikPopup AnchorSelector=".popup-target" @ref="PopupRef">
+        <CalendarGrid CurrDate="@currDate" Min="@min" Max="@max" DateChanged="DateChangeHandler">
+        </CalendarGrid>
+        <div>
+            Selected Date: @selectedDate
+        </div>
+    </TelerikPopup>
+}
+else
+{
+    <p>Loading providers...</p>
+}
+
+@code {
+    public List<ProviderModelDto> Providers { get; set; } = new List<ProviderModelDto>();
+    public IEnumerable<IGrouping<string, ProviderModelDto>> ProvidersBySpecialty { get; set; }
+    private TelerikPopup PopupRef { get; set; }
+    private DateTime min { get; set; } = DateTime.Now;
+    private DateTime max { get; set; } = new DateTime(2034, 1, 1);
+    private DateTime currDate { get; set; } = DateTime.Now;
+    private string selectedDate { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Providers = await ProviderSQLRepositoryActions.GetAllProviders();
+
+        // Group by specialty
+        ProvidersBySpecialty = Providers.GroupBy(p => p.ProviderSpecialty);
+    }
+    private void ShowPopup()
+    {
+        PopupRef.Show();
+    }
+    private void DateChangeHandler(DateTime date)
+    {
+        selectedDate = date.ToString("dd MMM yyyy");
+    }
+}
+
+<style>
+    .specialty-group {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .provider-card {
+        margin: 10px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .provider-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+    .telerik-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card-header, .card-body {
+        padding: 10px;
+    }
+
+    .card-header {
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .card-title {
+        font-size: 1.25em;
+        margin-bottom: 0.5em;
+    }
+
+    .card-subtitle {
+        color: #777;
+    }
+
+    .specialty-group:nth-child(even) {
+        background-color: #f0f8ff; /* AliceBlue */
+    }
+
+    .specialty-group:nth-child(odd) {
+        background-color: #f5f5dc; /* Beige */
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+</style>

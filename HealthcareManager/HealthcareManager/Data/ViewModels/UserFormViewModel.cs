@@ -1,5 +1,5 @@
-﻿using HealthcareManager.Components.Account.Pages.DTO;
-using HealthcareManager.Components.Account.Shared.Models.ViewModels;
+﻿using HealthcareManager.Components.Account.Shared.Models.ViewModels;
+using HealthcareManager.Data.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
