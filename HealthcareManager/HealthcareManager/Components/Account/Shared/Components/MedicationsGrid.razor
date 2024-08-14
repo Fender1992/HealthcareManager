@@ -1,0 +1,39 @@
+@page "/Account/medications"
+@using HealthcareManager.Data
+@using HealthcareManager.Repositories.MedicationsRepository
+@using Microsoft.EntityFrameworkCore
+@inject MedicationsRepository Meds
+
+
+<h3>Available Medications</h3>
+
+@if (medications == null || !medications.Any())
+{
+    <p><em>Available medications list is empty. Try again later....</em></p>
+}
+else
+{
+    <TelerikGrid Data="@medications" Pageable="true" Sortable="true" FilterMode="@GridFilterMode.FilterMenu">
+        <GridToolBarTemplate>
+            @* <TelerikButton OnClick="@Navigate" Icon="FontIcon.Plus">Add Record</TelerikButton> *@
+            <button>
+                <NavLink class="nav-link" href="/Account/new-appointment"></NavLink>
+            </button>
+        </GridToolBarTemplate>
+        <GridColumns>
+            <GridColumn Filterable="true" Sortable="true" Field="MedicationId" Title="Id" />
+            <GridColumn Filterable="true" Sortable="true" Field="MedicationName" Title="Medication Name" />
+            <GridColumn Filterable="true" Sortable="true" Field="MedicationDescription" Title="Description" />
+            <GridColumn Filterable="true" Sortable="true" Field="MedicationType" Title="Class" />
+            <GridColumn Filterable="true" Sortable="true" Field="MedicationCount" Title="Count" />
+        </GridColumns>
+    </TelerikGrid>
+}
+
+@code {
+    private List<MedicationsDTO> medications { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        medications = await Meds.GetAllAsync();
+    }
+}

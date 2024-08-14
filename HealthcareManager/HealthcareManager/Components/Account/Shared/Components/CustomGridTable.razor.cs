@@ -1,5 +1,5 @@
-using HealthcareManager.Components.Account.Shared.Models;
 using HealthcareManager.Components.Base;
+using HealthcareManager.Data.Models;
 using HealthcareManager.Utility;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;

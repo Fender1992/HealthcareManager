@@ -4,6 +4,7 @@ using HealthcareManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthcareManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240812205550_AppointmentTable")]
+    partial class AppointmentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,9 +102,11 @@ namespace HealthcareManager.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeOnly>("Time")
@@ -110,34 +115,6 @@ namespace HealthcareManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Appointments");
-                });
-
-            modelBuilder.Entity("HealthcareManager.Data.DTO.MedicationsDTO", b =>
-                {
-                    b.Property<int>("MedicationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicationId"));
-
-                    b.Property<DateTime>("DatePrescribed")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MedicationCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MedicationDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MedicationName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MedicationType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MedicationId");
-
-                    b.ToTable("Medications");
                 });
 
             modelBuilder.Entity("HealthcareManager.Data.DTO.ProviderModelDto", b =>
@@ -230,42 +207,6 @@ namespace HealthcareManager.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("userForm");
-                });
-
-            modelBuilder.Entity("HealthcareManager.Data.Models.ProviderModel", b =>
-                {
-                    b.Property<int>("ProviderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProviderId"));
-
-                    b.Property<DateOnly>("CertificationDate")
-                        .HasColumnType("date");
-
-                    b.Property<int?>("MedicationsDTOMedicationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProviderName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProviderSpecialty")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("YearsExperience")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProviderId");
-
-                    b.HasIndex("MedicationsDTOMedicationId");
-
-                    b.ToTable("ProviderModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -401,13 +342,6 @@ namespace HealthcareManager.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("HealthcareManager.Data.Models.ProviderModel", b =>
-                {
-                    b.HasOne("HealthcareManager.Data.DTO.MedicationsDTO", null)
-                        .WithMany("Provider")
-                        .HasForeignKey("MedicationsDTOMedicationId");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -457,11 +391,6 @@ namespace HealthcareManager.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("HealthcareManager.Data.DTO.MedicationsDTO", b =>
-                {
-                    b.Navigation("Provider");
                 });
 #pragma warning restore 612, 618
         }

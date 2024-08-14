@@ -1,0 +1,33 @@
+@using HealthcareManager.Components.Base
+@using Telerik.Blazor
+@using Telerik.Blazor.Components
+@inherits OwningComponentBase
+<CascadingValue IsFixed="true" Value="@Notifier">
+    <TelerikNotification AnimationType="@(AnimationType.SlideDown)" Class="notifier" HorizontalPosition="@(NotificationHorizontalPosition.Center)" @ref="@(NotificationInstance)" VerticalPosition="@(NotificationVerticalPosition.Top)"></TelerikNotification>
+    @ChildContent
+</CascadingValue>
+
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    [CascadingParameter]
+    private AppState? AppState { get; set; }
+    public TelerikNotification NotificationInstance;
+    public NotificationUtility Notifier { get; set; }
+    protected override void OnInitialized()
+    {
+        AppState.OnChange += StateHasChanged;
+    }
+    protected override void OnParametersSet()
+    {
+        if (Notifier == null && NotificationInstance != null)
+            Notifier = new NotificationUtility(NotificationInstance);
+        AppState.Notifier = Notifier;
+        base.OnParametersSet();
+    }
+    protected override void Dispose(bool disposing)
+    {
+        AppState.OnChange -= StateHasChanged;
+    }
+}

@@ -146,9 +146,10 @@
                 await dbContext.AddAsync<UserFormDTO>(newForm);
                 await dbContext.SaveChangesAsync();
 
-                AppState.Notifier.SuccessNotification("Patient encounter successfully saved");
+                //AppState.Notifier.SuccessNotification("Patient encounter successfully saved");
 
-                AppState.NavigationManager.NavigateTo("/");
+
+                //AppState.NavigationManager.NavigateTo("/");
             }
             catch (Exception e)
             {

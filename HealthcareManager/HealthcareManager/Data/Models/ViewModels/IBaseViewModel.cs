@@ -1,4 +1,4 @@
-﻿namespace HealthcareManager.Components.Account.Shared.Models.ViewModels
+﻿namespace HealthcareManager.Data.Models.ViewModels
 {
     public interface IBaseViewModel<T, U> where T : class where U : class
     {

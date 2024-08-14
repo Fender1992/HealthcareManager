@@ -9,12 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\Layout\**" />
+    <Content Remove="Components\Layout\**" />
+    <EmbeddedResource Remove="Components\Layout\**" />
+    <None Remove="Components\Layout\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
     <Content Remove="Components\_Host.cshtml" />
+    <Content Remove="wwwroot\HCManager.js" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HealthcareManager.Client\HealthcareManager.Client.csproj" />
+    <PackageReference Include="BlazorPro.Spinkit" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
@@ -33,7 +42,8 @@
 
   <ItemGroup>
     <None Include="Components\Account\Shared\Components\CalendarGrid.razor" />
-    <None Include="Components\_Host.cshtml" />
+    <None Include="Components\Layout\MainLayout.razor.css" />
+    <None Include="Components\Layout\NavMenu.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +52,21 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\Layout\MainLayout.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="Components\Layout\NavMenu.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Components\Routes.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
   </ItemGroup>
 
 </Project>

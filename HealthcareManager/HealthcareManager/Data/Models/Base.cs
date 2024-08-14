@@ -1,8 +1,8 @@
-﻿namespace HealthcareManager.Data.Models
+namespace HealthcareManager.Data.Models
 {
     public class Base
     {
-        public Guid Id { get; set; } = Guid.NewGuid(); // Unique identifier
+        public Guid Id { get; set; } // Unique identifier
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedDate { get; set; } = DateTime.UtcNow;
         public string? CreatedBy { get; set; } // User who created the entity

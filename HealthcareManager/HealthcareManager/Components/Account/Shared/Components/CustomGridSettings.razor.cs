@@ -1,4 +1,4 @@
-using HealthcareManager.Components.Account.Shared.Models;
+using HealthcareManager.Data.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace HealthcareManager.Components.Account.Shared.Components

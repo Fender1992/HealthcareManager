@@ -15,7 +15,7 @@ else
 {
     <TelerikGrid Data="@records" Pageable="true" Sortable="true" FilterMode="@GridFilterMode.FilterMenu">
         <GridToolBarTemplate>
-            <TelerikButton OnClick="@Navigate" Icon="FontIcon.Plus">Add Record</TelerikButton>
+            <TelerikButton OnClick="@Navigate" Icon="FontIcon.Plus"> <a href="/Account/Register/Data">Add Record</a></TelerikButton>
         </GridToolBarTemplate>
         <GridColumns>
             <GridColumn Filterable="true" Sortable="true" Field="CreatedDate" Title="Create Date" />

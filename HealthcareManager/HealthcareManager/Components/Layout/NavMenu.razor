@@ -10,6 +10,8 @@
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
+
+
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
@@ -20,7 +22,7 @@
         <AuthorizeView>
             <Authorized>
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/manage-appointments">
+                    <NavLink class="nav-link" href="/Account/manage-appointments">
                         <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Manage Appointments
                     </NavLink>
                 </div>
@@ -33,6 +35,11 @@
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/Account/medical-records">
                         <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Medical Records
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/Account/medications">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Medications
                     </NavLink>
                 </div>
 

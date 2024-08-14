@@ -1,7 +1,11 @@
-namespace HealthcareManager.Components.Account.Shared.Models
+using System.ComponentModel.DataAnnotations;
+
+namespace HealthcareManager.Data.Models
 {
     public class ProviderModel
     {
+
+        [Key]
         public int ProviderId { get; set; }
         public string ProviderName { get; set; } = string.Empty;
         public string ProviderSpecialty { get; set; } = string.Empty;

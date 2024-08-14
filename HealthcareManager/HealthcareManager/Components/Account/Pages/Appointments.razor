@@ -1,0 +1,57 @@
+@page "/Account/manage-appointments"
+@using HealthcareManager.Data
+@using HealthcareManager.Data.Models
+@using HealthcareManager.Repositories.AppointmentsRepository
+@using Microsoft.EntityFrameworkCore
+@inject NavigationManager Navigation
+@inject AppointmentRepository appts
+
+<h2>Appointments</h2>
+
+<button class="btn btn-secondary">
+    <span>
+        <a href="/Account/new-appointment">Add an Appointment</a>
+    </span>
+</button>
+
+@if (appointments == null || !appointments.Any())
+{
+    <p><em>No appointments found....</em></p>
+}
+else
+{
+    <TelerikGrid Data="@appointments" Pageable="true" Sortable="true" FilterMode="@GridFilterMode.FilterMenu">
+        <GridToolBarTemplate>
+            <!-- Toolbar content, if needed -->
+        </GridToolBarTemplate>
+        <GridColumns>
+            <GridColumn Filterable="true" Sortable="true" Field="CreatedDate" Title="Create Date" />
+            <GridColumn Filterable="true" Sortable="true" Field="Name" Title="Appointment" />
+            <GridColumn Filterable="true" Sortable="true" Field="Description" Title="Appointment Purpose" />
+            <GridColumn Filterable="true" Sortable="true" Field="Date" Title="Date" />
+            <GridColumn Filterable="true" Sortable="true" Field="Time" Title="Time" />
+        </GridColumns>
+    </TelerikGrid>
+}
+
+@code {
+    private List<AppointmentDTO> appointments { get; set; }
+    public EditContext? _editContext { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        appointments = await appts.GetAllAsync();
+    }
+
+    private void Navigate()
+    {
+        Navigation.Refresh();
+    }
+
+    private void AddAppointment()
+    {
+        Console.WriteLine("Button Clicked");
+        Navigation.NavigateTo("/new-appointment");
+        StateHasChanged();
+    }
+}

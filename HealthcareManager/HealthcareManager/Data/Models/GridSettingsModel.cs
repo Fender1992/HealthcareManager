@@ -1,6 +1,6 @@
 using Telerik.Blazor;
 
-namespace HealthcareManager.Components.Account.Shared.Models
+namespace HealthcareManager.Data.Models
 {
     public class GridSettingsModel
     {

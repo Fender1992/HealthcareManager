@@ -1,0 +1,84 @@
+@page "/Account/new-appointment"
+
+@using HealthcareManager.Data
+@using HealthcareManager.Components.Base
+@using HealthcareManager.Data.Models
+@using Telerik.Blazor.Components
+@inject ILogger<DataForm> Logger
+@inject ApplicationDbContext dbContext
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized Context="authContext">
+        <h3>Appointment Request Form</h3>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body">
+                            <EditForm Model="appointment" FormName="NewAppointmentForm" OnValidSubmit="SubmitForm" Context="formContext">
+                                <DataAnnotationsValidator />
+                                <h2>Submit a new request.</h2>
+                                <hr />
+                                <ValidationSummary class="text-danger" role="alert" />
+
+                                <div class="form-group mb-3">
+                                    <label for="createdDate">Appointment Date</label>
+                                    <TelerikDatePicker @bind-Value="appointment.Date" />
+                                    <ValidationMessage For="() => appointment.Date" class="text-danger" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="name">Name</label>
+                                    <TelerikTextBox @bind-Value="appointment.Name" Placeholder="John Doe" />
+                                    <ValidationMessage For="() => appointment.Name" class="text-danger" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="description">Description</label>
+                                    <TelerikTextBox @bind-Value="appointment.Description" Placeholder="Consultation" />
+                                    <ValidationMessage For="() => appointment.Description" class="text-danger" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="time">Appointment Time</label>
+                                    <TelerikTimePicker @bind-Value="appointment.Time" />
+                                    <ValidationMessage For="() => appointment.Time" class="text-danger" />
+                                </div>
+
+                                <TelerikButton ButtonType="ButtonType.Submit" Class="btn btn-primary">
+                                    Submit
+                                </TelerikButton>
+
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    private AppointmentDTO appointment { get; set; } = new AppointmentDTO();
+
+    private async Task SubmitForm()
+    {
+        if (appointment != null)
+        {
+            try
+            {
+                await dbContext.Appointments.AddAsync(appointment);
+                await dbContext.SaveChangesAsync();
+
+                NavigationManager.NavigateTo("/Account/manage-appointments");
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, e.Message);
+            }
+        }
+    }
+}

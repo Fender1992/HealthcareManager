@@ -3,8 +3,11 @@ using HealthcareManager.Components.Account;
 using HealthcareManager.Components.Base;
 using HealthcareManager.Data;
 using HealthcareManager.Repositories;
+using HealthcareManager.Repositories.AppointmentsRepository;
+using HealthcareManager.Repositories.MedicationsRepository;
 using HealthcareManager.Repositories.ProviderRepository;
 using HealthcareManager.Utility;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
@@ -20,9 +23,12 @@ builder.Services.AddScoped<SQLMedicalRecordsRepository>();
 builder.Services.AddTelerikBlazor();
 builder.Services.AddScoped<TelerikNotification>();
 builder.Services.AddScoped<ProviderSQLRepositoryActions>();
+builder.Services.AddScoped<AppointmentRepository>();
+builder.Services.AddScoped<MedicationsRepository>();
+builder.Services.AddSignalR();
 
 builder.Services.AddScoped<NotificationUtility>();
-builder.Services.AddScoped<AppState>();
+builder.Services.AddSingleton<AppState>();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
@@ -60,6 +66,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseWebAssemblyDebugging();
     app.UseMigrationsEndPoint();
 }
