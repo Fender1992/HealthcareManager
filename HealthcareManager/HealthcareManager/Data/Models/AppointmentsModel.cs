@@ -3,6 +3,7 @@ namespace HealthcareManager.Data.Models
     public class AppointmentsDTO
     {
         public int Id { get; set; }
+        public string UserId { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
         public string Description { get; set; }
         public DateOnly Date { get; set; }

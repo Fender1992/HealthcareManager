@@ -4,7 +4,8 @@
 @using Microsoft.EntityFrameworkCore
 @inject MedicationsRepository Meds
 
-
+<AuthorizeView>
+    <Authorized Context="authContext">
 <h3>Available Medications</h3>
 
 @if (medications == null || !medications.Any())
@@ -16,12 +17,12 @@ else
     <TelerikGrid Data="@medications" Pageable="true" Sortable="true" FilterMode="@GridFilterMode.FilterMenu">
         <GridToolBarTemplate>
             @* <TelerikButton OnClick="@Navigate" Icon="FontIcon.Plus">Add Record</TelerikButton> *@
-            <button>
+            @* <button>
                 <NavLink class="nav-link" href="/Account/new-appointment"></NavLink>
-            </button>
+            </button> *@
         </GridToolBarTemplate>
         <GridColumns>
-            <GridColumn Filterable="true" Sortable="true" Field="MedicationId" Title="Id" />
+            @* <GridColumn Filterable="true" Sortable="true" Field="MedicationId" Title="Id" /> *@
             <GridColumn Filterable="true" Sortable="true" Field="MedicationName" Title="Medication Name" />
             <GridColumn Filterable="true" Sortable="true" Field="MedicationDescription" Title="Description" />
             <GridColumn Filterable="true" Sortable="true" Field="MedicationType" Title="Class" />
@@ -29,11 +30,14 @@ else
         </GridColumns>
     </TelerikGrid>
 }
+    </Authorized>
+</AuthorizeView>
 
 @code {
-    private List<MedicationsDTO> medications { get; set; }
+    private List<MedicationsDTO> medications { get; set; } = new List<MedicationsDTO>();
     protected override async Task OnInitializedAsync()
     {
         medications = await Meds.GetAllAsync();
+        StateHasChanged();
     }
 }

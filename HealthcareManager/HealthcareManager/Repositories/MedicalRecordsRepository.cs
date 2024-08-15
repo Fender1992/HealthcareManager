@@ -1,44 +1,42 @@
 using HealthcareManager.Data;
 using HealthcareManager.Data.DTO;
-using HealthcareManager.Data.Models;
-using HealthcareManager.Utility;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthcareManager.Repositories.MedicationsRepository
+namespace HealthcareManager.Repositories
 {
-    public class MedicationRepository : IRepository<MedicationsDTO>
+    public class MedicalRecordsRepository : IRepository<UserFormDTO>
     {
         private readonly ApplicationDbContext _context;
         private ILogger<MedicationsDTO> _logger;
-        public MedicationRepository(ApplicationDbContext context, ILogger<MedicationsDTO> logger)
+        public MedicalRecordsRepository(ApplicationDbContext context, ILogger<MedicationsDTO> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        public async Task<MedicationsDTO> AddAsync(MedicationsDTO entity)
+        public async Task<UserFormDTO> AddAsync(UserFormDTO entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
-            await _context.Medications.AddAsync(entity);
+            await _context.UserForm.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<MedicationsDTO> DeleteAsync(MedicationsDTO entity)
+        public async Task<UserFormDTO> DeleteAsync(UserFormDTO entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
-            _context.Medications.Remove(entity);
+            _context.UserForm.Remove(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<List<MedicationsDTO>> GetAllAsync()
+        public async Task<List<UserFormDTO>> GetAllAsync()
         {
             try
             {
-                return await _context.Medications.ToListAsync();
+                return await _context.UserForm.ToListAsync();
             }
             catch (Exception ex)
             {
@@ -46,13 +44,13 @@ namespace HealthcareManager.Repositories.MedicationsRepository
             }
         }
 
-        public async Task<MedicationsDTO> GetById(int id)
+        public async Task<UserFormDTO> GetById(int id)
         {
             try
             {
                 if (id != 0)
                 {
-                    return await _context.Medications.FirstOrDefaultAsync(x => x.MedicationId == id);
+                    return await _context.UserForm.FirstOrDefaultAsync(x => x.UserId == id);
                 }
                 else
                 {
@@ -66,21 +64,21 @@ namespace HealthcareManager.Repositories.MedicationsRepository
             return null;
         }
 
-        public async Task<MedicationsDTO> UpdateAsync(MedicationsDTO entity)
+        public async Task<UserFormDTO> UpdateAsync(UserFormDTO entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            var item = await _context.Medications.FirstOrDefaultAsync(x => x.MedicationId == entity.MedicationId);
+            var item = await _context.UserForm.FirstOrDefaultAsync(x => x.UserId == entity.UserId);
 
             if (item is not null)
             {
-                item.MedicationName = entity.MedicationName;
-                item.MedicationDescription = entity.MedicationDescription;
-                item.DatePrescribed = entity.DatePrescribed;
-                item.MedicationType = entity.MedicationType;
+                item.FirstName = entity.FirstName;
+                item.LastName = entity.LastName;
+                item.Address = entity.Address;
+                item.BloodPressure = entity.BloodPressurehold ;
 
                 await _context.SaveChangesAsync();
             }
@@ -88,6 +86,4 @@ namespace HealthcareManager.Repositories.MedicationsRepository
             return entity;
         }
     }
-
 }
-

@@ -7,9 +7,10 @@ namespace HealthcareManager.Data.DTO
     {
         [Key]
         public int MedicationId { get; set; }
+        public string UserId { get; set; }
         public string MedicationName { get; set; }
         public string MedicationDescription { get; set; }
-        public List<string> MedicationType { get; set; }
+        public string MedicationType { get; set; }
         public int MedicationCount { get; set; }
         public DateTime DatePrescribed { get; set; }
        

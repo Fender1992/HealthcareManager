@@ -7,39 +7,41 @@ namespace HealthcareManager.Repositories.AppointmentsRepository
 {
     public class AppointmentRepository : IAppointmentRepository<AppointmentDTO>
     {
-        private ApplicationDbContext ApplicationDbContext;
+        private ApplicationDbContext _applicationDbContext;
         public AppointmentRepository(ApplicationDbContext applicationDbContext)
         {
-            ApplicationDbContext = applicationDbContext;
+            _applicationDbContext = applicationDbContext;
         }
-        public async Task AddAsync(AppointmentDTO entity)
+        public async Task AddAsync(AppointmentDTO entity, string userId)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            await ApplicationDbContext.Appointments.AddAsync(entity);
-            await ApplicationDbContext.SaveChangesAsync();
+            entity.UserId = userId;
+
+            await _applicationDbContext.Appointments.AddAsync(entity);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(AppointmentDTO entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            ApplicationDbContext.Appointments.Remove(entity);
-            await ApplicationDbContext.SaveChangesAsync();
+            _applicationDbContext.Appointments.Remove(entity);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task<List<AppointmentDTO>> GetAllAsync()
         {
-            return await ApplicationDbContext.Appointments.ToListAsync();
+            return await _applicationDbContext.Appointments.ToListAsync();
         }
 
         public async Task<AppointmentDTO> GetByIdAsync(int id)
         {
-            if (ApplicationDbContext.Appointments == null)
+            if (_applicationDbContext.Appointments == null)
                 return null;
 
-            AppointmentDTO appointmentById = await ApplicationDbContext.Appointments.FirstOrDefaultAsync(x => x.Id == id);
+            AppointmentDTO appointmentById = await _applicationDbContext.Appointments.FirstOrDefaultAsync(x => x.Id == id);
             return appointmentById;
         }
 
@@ -51,19 +53,25 @@ namespace HealthcareManager.Repositories.AppointmentsRepository
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            var existingEntity = await ApplicationDbContext.Appointments.FindAsync(entity.Id);
+            var existingEntity = await _applicationDbContext.Appointments.FindAsync(entity.Id);
             if (existingEntity == null)
             {
                 throw new InvalidOperationException("Entity not found in the database.");
             }
 
             // Update the properties of the existing entity
-            ApplicationDbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
+            _applicationDbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
 
             // Save changes to the database
-            await ApplicationDbContext.SaveChangesAsync();
+            await _applicationDbContext.SaveChangesAsync();
+        }
+        public async Task<List<AppointmentDTO>> GetByUserIdAsync(string userId)
+        {
+            return await _applicationDbContext.Appointments
+                                 .Where(a => a.UserId == userId)
+                                 .ToListAsync();
         }
 
-        
+
     }
 }

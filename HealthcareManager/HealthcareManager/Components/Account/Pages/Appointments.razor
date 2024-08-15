@@ -3,16 +3,15 @@
 @using HealthcareManager.Data.Models
 @using HealthcareManager.Repositories.AppointmentsRepository
 @using Microsoft.EntityFrameworkCore
-@inject NavigationManager Navigation
-@inject AppointmentRepository appts
+@inject AppointmentRepository _appointmentRepository
 
+<AuthorizeView>
+    <Authorized Context="authContext">
 <h2>Appointments</h2>
 
-<button class="btn btn-secondary">
-    <span>
-        <a href="/Account/new-appointment">Add an Appointment</a>
-    </span>
-</button>
+
+<a href="/Account/new-appointment" class="button"> Add an Appointment
+</a>
 
 @if (appointments == null || !appointments.Any())
 {
@@ -25,7 +24,6 @@ else
             <!-- Toolbar content, if needed -->
         </GridToolBarTemplate>
         <GridColumns>
-            <GridColumn Filterable="true" Sortable="true" Field="CreatedDate" Title="Create Date" />
             <GridColumn Filterable="true" Sortable="true" Field="Name" Title="Appointment" />
             <GridColumn Filterable="true" Sortable="true" Field="Description" Title="Appointment Purpose" />
             <GridColumn Filterable="true" Sortable="true" Field="Date" Title="Date" />
@@ -33,25 +31,28 @@ else
         </GridColumns>
     </TelerikGrid>
 }
+    </Authorized>
+</AuthorizeView>
 
 @code {
-    private List<AppointmentDTO> appointments { get; set; }
-    public EditContext? _editContext { get; set; }
+    private List<AppointmentDTO> appointments { get; set; } = new List<AppointmentDTO>();
 
     protected override async Task OnInitializedAsync()
     {
-        appointments = await appts.GetAllAsync();
+        //var userId = authContext.User.Identity.Name;
+        appointments = await _appointmentRepository.GetAllAsync();
+
     }
 
-    private void Navigate()
-    {
-        Navigation.Refresh();
-    }
+    // private void Navigate()
+    // {
+    //     Navigation.Refresh();
+    // }
 
-    private void AddAppointment()
-    {
-        Console.WriteLine("Button Clicked");
-        Navigation.NavigateTo("/new-appointment");
-        StateHasChanged();
-    }
+    // private void AddAppointment()
+    // {
+    //     Console.WriteLine("Button Clicked");
+    //     Navigation.NavigateTo("/new-appointment");
+    //     StateHasChanged();
+    // }
 }

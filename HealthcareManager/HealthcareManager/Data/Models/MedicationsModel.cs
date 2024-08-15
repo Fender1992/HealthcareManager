@@ -6,6 +6,7 @@ namespace HealthcareManager.Data.Models
     {
         [Key]
         public int MedicationId { get; set; }
+        public string UserId { get; set; } = Guid.NewGuid().ToString();
         public string MedicationName { get; set; }
         public string MedicationDescription { get; set; }
         public List<string> MedicationType { get; set; }

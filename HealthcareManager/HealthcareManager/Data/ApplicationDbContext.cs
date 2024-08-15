@@ -11,7 +11,7 @@ namespace HealthcareManager.Data
         {
         }
 
-        public DbSet<UserFormDTO>? userForm { get; set; }
+        public DbSet<UserFormDTO>? UserForm { get; set; }
         public DbSet<ProviderModelDto> Providers
         {
             get; set;
