@@ -7,7 +7,7 @@ namespace HealthcareManager.Data.DTO
     {
         [Key]
         public int MedicationId { get; set; }
-        public string UserId { get; set; }
+        public string UserId { get; set; } = Guid.NewGuid().ToString();
         public string MedicationName { get; set; }
         public string MedicationDescription { get; set; }
         public string MedicationType { get; set; }

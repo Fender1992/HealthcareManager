@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HealthcareManager.Repositories
 {
-    public class MedicalRecordsRepository : IRepository<UserFormDTO>
+    public class MedicalRecordsRepository : IRepository<ApplicationUserDTO>
     {
         private readonly ApplicationDbContext _context;
         private ILogger<MedicationsDTO> _logger;
@@ -14,7 +14,7 @@ namespace HealthcareManager.Repositories
             _logger = logger;
         }
 
-        public async Task<UserFormDTO> AddAsync(UserFormDTO entity)
+        public async Task<ApplicationUserDTO> AddAsync(ApplicationUserDTO entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -23,7 +23,7 @@ namespace HealthcareManager.Repositories
             return entity;
         }
 
-        public async Task<UserFormDTO> DeleteAsync(UserFormDTO entity)
+        public async Task<ApplicationUserDTO> DeleteAsync(ApplicationUserDTO entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -32,7 +32,7 @@ namespace HealthcareManager.Repositories
             return entity;
         }
 
-        public async Task<List<UserFormDTO>> GetAllAsync()
+        public async Task<List<ApplicationUserDTO>> GetAllAsync()
         {
             try
             {
@@ -44,13 +44,13 @@ namespace HealthcareManager.Repositories
             }
         }
 
-        public async Task<UserFormDTO> GetById(int id)
+        public async Task<ApplicationUserDTO> GetById(int id)
         {
             try
             {
                 if (id != 0)
                 {
-                    return await _context.UserForm.FirstOrDefaultAsync(x => x.UserId == id);
+                    return await _context.UserForm.FirstOrDefaultAsync(x => x.UserId == id.ToString());
                 }
                 else
                 {
@@ -64,7 +64,7 @@ namespace HealthcareManager.Repositories
             return null;
         }
 
-        public async Task<UserFormDTO> UpdateAsync(UserFormDTO entity)
+        public async Task<ApplicationUserDTO> UpdateAsync(ApplicationUserDTO entity)
         {
             if (entity == null)
             {
@@ -78,7 +78,7 @@ namespace HealthcareManager.Repositories
                 item.FirstName = entity.FirstName;
                 item.LastName = entity.LastName;
                 item.Address = entity.Address;
-                item.BloodPressure = entity.BloodPressurehold ;
+                item.BloodPressure = entity.BloodPressure ;
 
                 await _context.SaveChangesAsync();
             }

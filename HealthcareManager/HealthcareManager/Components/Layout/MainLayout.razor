@@ -1,5 +1,4 @@
-@inherits LayoutComponentBase
-
+@* @inherits LayoutComponentBase
 
 <TelerikRootComponent>
     <div class="page">
@@ -14,14 +13,14 @@
                     <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
                 </div>
 
-                <article class="content px-4">
-                    @Body
-                </article>
+                <ErrorBoundary>
+                    <article class="content px-4">
+                        @Body
+                    </article>
+                </ErrorBoundary>
             </main>
         </TelerikContainer>
-
     </div>
-
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
@@ -29,4 +28,4 @@
         <a class="dismiss">🗙</a>
     </div>
 </TelerikRootComponent>
-
+ *@

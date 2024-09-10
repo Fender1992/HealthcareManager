@@ -7,6 +7,7 @@ namespace HealthcareManager.Data.Models
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        public string UserId { get; set; } = Guid.NewGuid().ToString();
         [StringLength(255)]
         public string FileName { get; set; }
         public byte[]? FileContent { get; set; }

@@ -1,72 +1,85 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-HealthcareManager-e8f81362-573e-4112-a355-95149be91d9f</UserSecretsId>
-    <BaseOutputPath>bin\Debug\net8.0\</BaseOutputPath>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>aspnet-HealthcareManager-e8f81362-573e-4112-a355-95149be91d9f</UserSecretsId>
+        <BaseOutputPath>bin\Debug\net8.0\</BaseOutputPath>
+        <Version>1.0.0</Version>
+        <FileVersion>1.0.0</FileVersion>
+        <Title>HealthcareManager</Title>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <Product>HealthcareManager</Product>
+        <InformationalVersion>1.0.0</InformationalVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Components\Layout\**" />
-    <Content Remove="Components\Layout\**" />
-    <EmbeddedResource Remove="Components\Layout\**" />
-    <None Remove="Components\Layout\**" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Components\Layout\**" />
+        <Content Remove="Components\Layout\**" />
+        <EmbeddedResource Remove="Components\Layout\**" />
+        <None Remove="Components\Layout\**" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
-    <Content Remove="Components\_Host.cshtml" />
-    <Content Remove="wwwroot\HCManager.js" />
-  </ItemGroup>
+    <ItemGroup>
+        <Content Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
+        <Content Remove="Components\_Host.cshtml" />
+        <Content Remove="wwwroot\HCManager.js" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\HealthcareManager.Client\HealthcareManager.Client.csproj" />
-    <PackageReference Include="BlazorPro.Spinkit" Version="1.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7" />
-    <PackageReference Include="Telerik.DataSource" Version="3.0.1" />
-    <PackageReference Include="Telerik.FontIcons" Version="3.0.0" />
-    <PackageReference Include="Telerik.SvgIcons" Version="3.0.0" />
-    <PackageReference Include="Telerik.UI.for.Blazor" Version="6.0.2" />
+    <ItemGroup>
+        <ProjectReference Include="..\HealthcareManager.Client\HealthcareManager.Client.csproj" />
+        <PackageReference Include="BlazorPro.Spinkit" Version="1.2.0" />
+        <PackageReference Include="FontAwesome" Version="4.7.0" />
+        <PackageReference Include="log4net" Version="2.0.17" />
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Telerik.DataSource" Version="3.0.1" />
+        <PackageReference Include="Telerik.FontIcons" Version="3.0.0" />
+        <PackageReference Include="Telerik.SvgIcons" Version="3.0.0" />
+        <PackageReference Include="Telerik.UI.for.Blazor" Version="6.2.0" />
 
-  </ItemGroup>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\Account\Pages\Home\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Components\Account\Pages\Home\" />
+        <Folder Include="Components\Base\" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Components\Account\Shared\Components\CalendarGrid.razor" />
-    <None Include="Components\Layout\MainLayout.razor.css" />
-    <None Include="Components\Layout\NavMenu.razor.css" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="Components\Account\Shared\Components\CalendarGrid.razor" />
+        <None Include="wwwroot\NavMenu.css" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
-  </ItemGroup>
+    <ItemGroup>
+        <UpToDateCheckInput Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
-  </ItemGroup>
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="Components\Account\Shared\Components\CalendarGrid.razor" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Components\Layout\MainLayout.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Include="Components\Layout\NavMenu.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="Components\Layout\MasterLayout.razor">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </Content>
+        <Content Include="Components\Layout\NavMenu.razor">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </Content>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="Components\Routes.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Update="Components\Routes.razor">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </Content>
+    </ItemGroup>
 
 </Project>

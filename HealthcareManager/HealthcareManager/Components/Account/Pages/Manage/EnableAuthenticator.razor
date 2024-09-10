@@ -1,4 +1,4 @@
-﻿@page "/Account/Manage/EnableAuthenticator"
+@page "/Account/Manage/EnableAuthenticator"
 
 @using System.ComponentModel.DataAnnotations
 @using System.Globalization
@@ -49,7 +49,7 @@ else
                 </p>
                 <div class="row">
                     <div class="col-md-6">
-                        <EditForm Model="Input" FormName="send-code" OnValidSubmit="OnValidSubmitAsync" method="post">
+                        <EditForm Model="Input" FormName="send-code" OnValidSubmit="OnValid_SubmitAsync" method="post">
                             <DataAnnotationsValidator />
                             <div class="form-floating mb-3">
                                 <InputText @bind-Value="Input.Code" class="form-control" autocomplete="off" placeholder="Please enter the code." />
@@ -88,7 +88,7 @@ else
         await LoadSharedKeyAndQrCodeUriAsync(user);
     }
 
-    private async Task OnValidSubmitAsync()
+    private async Task OnValid_SubmitAsync()
     {
         // Strip spaces and hyphens
         var verificationCode = Input.Code.Replace(" ", string.Empty).Replace("-", string.Empty);

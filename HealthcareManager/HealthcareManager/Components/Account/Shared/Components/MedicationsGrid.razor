@@ -1,8 +1,8 @@
 @page "/Account/medications"
 @using HealthcareManager.Data
 @using HealthcareManager.Repositories.MedicationsRepository
+
 @using Microsoft.EntityFrameworkCore
-@inject MedicationsRepository Meds
 
 <AuthorizeView>
     <Authorized Context="authContext">
@@ -34,10 +34,23 @@ else
 </AuthorizeView>
 
 @code {
+    [Inject]
+    private MedicationRepository? medicationRepository { get; set; } 
     private List<MedicationsDTO> medications { get; set; } = new List<MedicationsDTO>();
     protected override async Task OnInitializedAsync()
     {
-        medications = await Meds.GetAllAsync();
-        StateHasChanged();
+        try
+        {
+            if(medications != null)
+            {
+                medications = await medicationRepository.GetAllAsync();
+                StateHasChanged();
+            }
+        }
+        catch(Exception ex)
+        {
+            throw new InvalidOperationException("An error occurred while retrieving medications.", ex);
+        }
+
     }
 }

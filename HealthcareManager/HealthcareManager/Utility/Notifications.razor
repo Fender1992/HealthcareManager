@@ -1,4 +1,4 @@
-@using HealthcareManager.Components.Base
+@using HealthcareManager.Data
 @using Telerik.Blazor
 @using Telerik.Blazor.Components
 @inherits OwningComponentBase
@@ -17,17 +17,23 @@
     public NotificationUtility Notifier { get; set; }
     protected override void OnInitialized()
     {
-        AppState.OnChange += StateHasChanged;
+        AppState._OnChange += StateHasChanged;
+        if (NotificationInstance != null)
+        {
+            Notifier = new NotificationUtility(NotificationInstance);
+            AppState._notifier = Notifier;
+        }
     }
     protected override void OnParametersSet()
     {
         if (Notifier == null && NotificationInstance != null)
             Notifier = new NotificationUtility(NotificationInstance);
-        AppState.Notifier = Notifier;
+        AppState._notifier = Notifier;
         base.OnParametersSet();
     }
+    
     protected override void Dispose(bool disposing)
     {
-        AppState.OnChange -= StateHasChanged;
+        AppState._OnChange -= StateHasChanged;
     }
 }

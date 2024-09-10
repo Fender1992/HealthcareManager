@@ -1,0 +1,122 @@
+@inject ProtectedSessionStorage Session
+@inject ProtectedLocalStorage Local
+@using HealthcareManager.Components
+@using HealthcareManager.Data
+@using HealthcareManager.Data.DTO
+@using HealthcareManager.Utility
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+@inherits OwningComponentBase
+@using HealthcareManager.Components
+
+<CascadingValue Value="@(this)">
+    <div class="container">
+        @Application
+    </div>
+</CascadingValue>
+
+@code {
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    [Inject]
+    protected ILogger<AppState> Logger { get; set; }
+
+    [Parameter]
+    public RenderFragment Application { get; set; }
+
+    public NotificationUtility _notifier { get; set; }
+    public event Action _OnChange;
+    internal ApplicationUserDTO _currentUser { get; private set; }
+    private bool Loading { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var app = Application.Target as App;
+        if (app != null)
+        {
+            // Load user session or default
+            _currentUser = await GetLocalAsync<ApplicationUserDTO>("_currentUser") ;
+        }
+
+        this._OnChange += StateHasChanged;
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task SetCurrentUser(string email, string password)
+    {
+        
+    }
+    public async Task<ApplicationUserDTO> GetCurrentUser(bool isDebug = false)
+    {
+        string email = "";
+        string password = "";
+        if(!isDebug && email != "" & password != "")
+        {
+            var sessionTask = await GetSessionAsync<ApplicationUserDTO>("currentUser");
+            if (sessionTask != null)
+            {
+                _currentUser = sessionTask as ApplicationUserDTO;
+                return _currentUser;
+            }
+        }
+        if(isDebug)
+        {
+            email = "Testemail@gmail.com";
+            password = "Password!1";
+            await SetCurrentUser(email, password);
+        };
+        return _currentUser;
+    }
+
+    public async ValueTask SetSessionAsync<T>(string email, string password)
+    {
+        await SetLocalAsync(email, password);  // Use Local storage here for consistency
+    }
+
+    public async ValueTask<T> GetSessionAsync<T>(string key)
+    {
+        return await GetLocalAsync<T>(key);  // Use Local storage here for consistency
+    }
+
+    public async Task ClearCurrentUser()
+    {
+        _currentUser = null;
+        await Local.DeleteAsync("_currentUser");
+        NotifyStateChanged();  // Notify that state has changed after clearing
+    }
+
+    public async ValueTask SetLocalAsync<T>(string key, T value)
+    {
+        try
+        {
+            await Local.SetAsync(key, value);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+        }
+    }
+
+    public async ValueTask<T> GetLocalAsync<T>(string key)
+    {
+        try
+        {
+            var result = await Local.GetAsync<T>(key);
+            return result.Value;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            return default(T);
+        }
+    }
+
+    private void NotifyStateChanged() => _OnChange?.Invoke();
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        this._OnChange -= StateHasChanged;
+    }
+}

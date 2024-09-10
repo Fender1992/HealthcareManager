@@ -1,4 +1,4 @@
-﻿@page "/Account/ResendEmailConfirmation"
+@page "/Account/ResendEmailConfirmation"
 
 @using System.ComponentModel.DataAnnotations
 @using System.Text
@@ -20,7 +20,7 @@
 <StatusMessage Message="@message" />
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="Input" FormName="resend-email-confirmation" OnValidSubmit="OnValidSubmitAsync" method="post">
+        <EditForm Model="Input" FormName="resend-email-confirmation" OnValidSubmit="OnValidResend_Email_Confirmation" method="post">
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
@@ -39,7 +39,7 @@
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
 
-    private async Task OnValidSubmitAsync()
+    private async Task OnValidResend_Email_Confirmation()
     {
         var user = await UserManager.FindByEmailAsync(Input.Email!);
         if (user is null)

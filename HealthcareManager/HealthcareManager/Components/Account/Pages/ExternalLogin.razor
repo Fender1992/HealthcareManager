@@ -1,4 +1,4 @@
-﻿@page "/Account/ExternalLogin"
+@page "/Account/ExternalLogin"
 
 @using System.ComponentModel.DataAnnotations
 @using System.Security.Claims
@@ -31,7 +31,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="Input" OnValidSubmit="OnValidSubmitAsync" FormName="confirmation" method="post">
+        <EditForm Model="Input" OnValidSubmit="On_ValidSubmitAsync" FormName="confirmation" method="post">
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
@@ -125,7 +125,7 @@
         }
     }
 
-    private async Task OnValidSubmitAsync()
+    private async Task On_ValidSubmitAsync()
     {
         var emailStore = GetEmailStore();
         var user = CreateUser();

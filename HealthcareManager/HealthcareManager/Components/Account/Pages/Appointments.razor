@@ -7,30 +7,31 @@
 
 <AuthorizeView>
     <Authorized Context="authContext">
-<h2>Appointments</h2>
+        <h2>Appointments</h2>
 
 
-<a href="/Account/new-appointment" class="button"> Add an Appointment
-</a>
+        <a href="/Account/new-appointment" class="button">
+            Add an Appointment
+        </a>
 
-@if (appointments == null || !appointments.Any())
-{
-    <p><em>No appointments found....</em></p>
-}
-else
-{
-    <TelerikGrid Data="@appointments" Pageable="true" Sortable="true" FilterMode="@GridFilterMode.FilterMenu">
-        <GridToolBarTemplate>
-            <!-- Toolbar content, if needed -->
-        </GridToolBarTemplate>
-        <GridColumns>
-            <GridColumn Filterable="true" Sortable="true" Field="Name" Title="Appointment" />
-            <GridColumn Filterable="true" Sortable="true" Field="Description" Title="Appointment Purpose" />
-            <GridColumn Filterable="true" Sortable="true" Field="Date" Title="Date" />
-            <GridColumn Filterable="true" Sortable="true" Field="Time" Title="Time" />
-        </GridColumns>
-    </TelerikGrid>
-}
+        @if (appointments == null || !appointments.Any())
+        {
+            <p><em>No appointments found....</em></p>
+        }
+        else
+        {
+            <TelerikGrid Data="@appointments" Pageable="true" Sortable="true" FilterMode="@GridFilterMode.FilterMenu">
+                <GridToolBarTemplate>
+                    <!-- Toolbar content, if needed -->
+                </GridToolBarTemplate>
+                <GridColumns>
+                    <GridColumn Filterable="true" Sortable="true" Field="Name" Title="Appointment" />
+                    <GridColumn Filterable="true" Sortable="true" Field="Description" Title="Appointment Purpose" />
+                    <GridColumn Filterable="true" Sortable="true" Field="Date" Title="Date" />
+                    <GridColumn Filterable="true" Sortable="true" Field="Time" Title="Time" />
+                </GridColumns>
+            </TelerikGrid>
+        }
     </Authorized>
 </AuthorizeView>
 
@@ -41,18 +42,25 @@ else
     {
         //var userId = authContext.User.Identity.Name;
         appointments = await _appointmentRepository.GetAllAsync();
-
+        await RemoveExpiredAppointmentsAsync();
     }
 
-    // private void Navigate()
-    // {
-    //     Navigation.Refresh();
-    // }
+    public async Task<List<AppointmentDTO>> RemoveExpiredAppointmentsAsync()
+    {
+        List<AppointmentDTO> expiredList;
+        expiredList = appointments;
+        foreach(AppointmentDTO l in expiredList)
+        {
+            if(l.Date >= new DateOnly())
+            {
+                var deletedItems = _appointmentRepository.DeleteAsync(l);
+                await deletedItems;
+            }
+        }
+        StateHasChanged();
+        return expiredList;
 
-    // private void AddAppointment()
-    // {
-    //     Console.WriteLine("Button Clicked");
-    //     Navigation.NavigateTo("/new-appointment");
-    //     StateHasChanged();
-    // }
+    }
+    
+
 }

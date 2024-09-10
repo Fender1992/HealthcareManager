@@ -1,4 +1,4 @@
-using HealthcareManager.Components.Base;
+using HealthcareManager.Data;
 using HealthcareManager.Data.Models;
 using HealthcareManager.Utility;
 using Microsoft.AspNetCore.Components;
@@ -132,7 +132,7 @@ namespace HealthcareManager.Components.Account.Shared.Components
         }
         protected override async Task OnInitializedAsync()
         {
-            AppState.OnChange += StateHasChanged;
+            AppState._OnChange += StateHasChanged;
             //if (CanEdit != false)
             //    await SetCanEdit();
             FileName = $"{DateTime.Now.ToShortDateString()}";
@@ -175,7 +175,7 @@ namespace HealthcareManager.Components.Account.Shared.Components
         }
         private void Dispose()
         {
-            AppState.OnChange -= StateHasChanged;
+            AppState._OnChange -= StateHasChanged;
         }
     }
 }

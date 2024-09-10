@@ -17,7 +17,7 @@ namespace HealthcareManager.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -30,9 +30,21 @@ namespace HealthcareManager.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("BloodPressure")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -40,6 +52,25 @@ namespace HealthcareManager.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("FacilityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("HeartRate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -64,17 +95,41 @@ namespace HealthcareManager.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("PostalCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PulseOximetry")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Temperature")
+                        .HasColumnType("float");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<long>("Weight")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("FacilityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -85,6 +140,87 @@ namespace HealthcareManager.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("HealthcareManager.Data.DTO.ApplicationUserDTO", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("BloodPressure")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("FacilityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("HeartRate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
+
+                    b.Property<int>("PostalCode")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PulseOximetry")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Temperature")
+                        .HasColumnType("float");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Weight")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacilityId");
+
+                    b.ToTable("UserForm");
                 });
 
             modelBuilder.Entity("HealthcareManager.Data.DTO.AppointmentDTO", b =>
@@ -188,61 +324,484 @@ namespace HealthcareManager.Migrations
                     b.ToTable("Providers");
                 });
 
-            modelBuilder.Entity("HealthcareManager.Data.DTO.UserFormDTO", b =>
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.Facility", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<string>("BloodPressure")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FirstName")
+                    b.Property<int?>("DefaultFacilityCode")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DefaultStatusCodeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FacilityCodeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FacilityName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("HeartRate")
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedById")
                         .HasColumnType("int");
 
-                    b.Property<int>("Height")
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ParentFacilityId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProgramId")
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<string>("SpecialAreaCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StateAbbreviation")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DefaultStatusCodeId");
+
+                    b.HasIndex("FacilityCodeId");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.HasIndex("ParentFacilityId");
+
+                    b.ToTable("Facility", "f");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.LookupCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Abbreviation")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<int?>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Schema")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.ToTable("LookupCode");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.ModuleStatus", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LookupCodeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubModuleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LookupCodeId");
+
+                    b.HasIndex("SubModuleId");
+
+                    b.ToTable("ModuleStatus");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.ModuleStatusWorkflow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ActionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("FacilityId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ModuleStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NextModuleStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActionId");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("FacilityId");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.HasIndex("ModuleStatusId");
+
+                    b.HasIndex("NextModuleStatusId");
+
+                    b.ToTable("ModuleStatusWorkflow");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FacilityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LastModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleCodeId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<int?>("TypeCodeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("FacilityId");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("RoleCodeId");
+
+                    b.HasIndex("TypeCodeId");
+
+                    b.ToTable("roles");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.Unit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("FacilityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LastModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("UnitName")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("FacilityId");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.ToTable("Unit");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("FacilityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("PostalCode")
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("SSN")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PulseOximetry")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Role")
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
-                    b.Property<double>("Temperature")
-                        .HasColumnType("float");
+                    b.HasKey("Id");
 
-                    b.Property<long>("Weight")
-                        .HasColumnType("bigint");
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.UserPreference", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ApplicationUserDTOId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("DefaultSubModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("RecieveEmail")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<int?>("UserRoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId");
 
-                    b.ToTable("userForm");
+                    b.HasIndex("ApplicationUserDTOId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("DefaultSubModuleId");
+
+                    b.HasIndex("UserRoleId");
+
+                    b.ToTable("userPreferences");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ApplicationUserDTOId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAuthorized")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserDTOId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Useroles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -378,6 +937,261 @@ namespace HealthcareManager.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HealthcareManager.Data.ApplicationUser", b =>
+                {
+                    b.HasOne("HealthcareManager.Domain.Entities.Facility", "Facility")
+                        .WithMany()
+                        .HasForeignKey("FacilityId");
+
+                    b.Navigation("Facility");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Data.DTO.ApplicationUserDTO", b =>
+                {
+                    b.HasOne("HealthcareManager.Domain.Entities.Facility", "Facility")
+                        .WithMany()
+                        .HasForeignKey("FacilityId");
+
+                    b.Navigation("Facility");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.Facility", b =>
+                {
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "DefaultStatusCode")
+                        .WithMany()
+                        .HasForeignKey("DefaultStatusCodeId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "FacilityCode")
+                        .WithMany()
+                        .HasForeignKey("FacilityCodeId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.Facility", "ParentFacility")
+                        .WithMany()
+                        .HasForeignKey("ParentFacilityId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DefaultStatusCode");
+
+                    b.Navigation("FacilityCode");
+
+                    b.Navigation("LastModifiedBy");
+
+                    b.Navigation("ParentFacility");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.LookupCode", b =>
+                {
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("LastModifiedBy");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.ModuleStatus", b =>
+                {
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "LookupCode")
+                        .WithMany()
+                        .HasForeignKey("LookupCodeId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "SubModule")
+                        .WithMany()
+                        .HasForeignKey("SubModuleId");
+
+                    b.Navigation("LookupCode");
+
+                    b.Navigation("SubModule");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.ModuleStatusWorkflow", b =>
+                {
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "Action")
+                        .WithMany()
+                        .HasForeignKey("ActionId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.Facility", null)
+                        .WithMany("Workflows")
+                        .HasForeignKey("FacilityId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.ModuleStatus", "ModuleStatus")
+                        .WithMany()
+                        .HasForeignKey("ModuleStatusId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.ModuleStatus", "NextModuleStatus")
+                        .WithMany()
+                        .HasForeignKey("NextModuleStatusId");
+
+                    b.Navigation("Action");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("LastModifiedBy");
+
+                    b.Navigation("ModuleStatus");
+
+                    b.Navigation("NextModuleStatus");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.Role", b =>
+                {
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.Facility", "Facility")
+                        .WithMany()
+                        .HasForeignKey("FacilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "RoleCode")
+                        .WithMany()
+                        .HasForeignKey("RoleCodeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "TypeCode")
+                        .WithMany()
+                        .HasForeignKey("TypeCodeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("Facility");
+
+                    b.Navigation("LastModifiedBy");
+
+                    b.Navigation("Module");
+
+                    b.Navigation("RoleCode");
+
+                    b.Navigation("TypeCode");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.Unit", b =>
+                {
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.Facility", "Facility")
+                        .WithMany("Departments")
+                        .HasForeignKey("FacilityId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("Facility");
+
+                    b.Navigation("LastModifiedBy");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.UserPreference", b =>
+                {
+                    b.HasOne("HealthcareManager.Data.DTO.ApplicationUserDTO", null)
+                        .WithMany("UserPreferences")
+                        .HasForeignKey("ApplicationUserDTOId");
+
+                    b.HasOne("HealthcareManager.Data.ApplicationUser", null)
+                        .WithMany("UserPreferences")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.LookupCode", "DefaultSubModule")
+                        .WithMany()
+                        .HasForeignKey("DefaultSubModuleId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "User")
+                        .WithMany("UserPreferences")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HealthcareManager.Domain.Entities.UserRole", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId");
+
+                    b.Navigation("DefaultSubModule");
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserRole");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.UserRole", b =>
+                {
+                    b.HasOne("HealthcareManager.Data.DTO.ApplicationUserDTO", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserDTOId");
+
+                    b.HasOne("HealthcareManager.Data.ApplicationUser", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById");
+
+                    b.HasOne("HealthcareManager.Domain.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HealthcareManager.Domain.Entities.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("LastModifiedBy");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -427,6 +1241,34 @@ namespace HealthcareManager.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HealthcareManager.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("UserPreferences");
+
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Data.DTO.ApplicationUserDTO", b =>
+                {
+                    b.Navigation("UserPreferences");
+
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.Facility", b =>
+                {
+                    b.Navigation("Departments");
+
+                    b.Navigation("Workflows");
+                });
+
+            modelBuilder.Entity("HealthcareManager.Domain.Entities.User", b =>
+                {
+                    b.Navigation("UserPreferences");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

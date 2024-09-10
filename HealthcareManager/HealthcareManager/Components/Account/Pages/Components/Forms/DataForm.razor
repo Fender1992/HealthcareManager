@@ -1,5 +1,4 @@
 @page "/Account/Register/Data"
-@using HealthcareManager.Components.Base
 @using HealthcareManager.Data.Models
 @using HealthcareManager.Data
 @using Telerik.Blazor.Components
@@ -105,13 +104,13 @@
 
 @code {
     public EditContext? _editContext { get; set; }
-    private UserFormDTO Model { get; set; }
+    private ApplicationUserDTO Model { get; set; }
     [CascadingParameter]
     private AppState? AppState { get; set; }
 
     public DataForm()
     {
-        Model = new UserFormDTO();
+        Model = new ApplicationUserDTO();
     }
 
     protected override void OnInitialized()
@@ -126,8 +125,7 @@
         {
             try
             {
-                Model.Role = "Patient";
-                var newForm = new UserFormDTO
+                var newForm = new ApplicationUserDTO
                     {
                         CreatedDate = Model.CreatedDate,
                         FirstName = Model.FirstName,
@@ -140,10 +138,9 @@
                         Height = Model.Height,
                         Weight = Model.Weight,
                         PulseOximetry = Model.PulseOximetry,
-                        Role = Model.Role
                     };
 
-                await dbContext.AddAsync<UserFormDTO>(newForm);
+                await dbContext.AddAsync<ApplicationUserDTO>(newForm);
                 await dbContext.SaveChangesAsync();
 
                 //AppState.Notifier.SuccessNotification("Patient encounter successfully saved");

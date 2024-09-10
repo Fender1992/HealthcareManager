@@ -1,4 +1,4 @@
-﻿using HealthcareManager.Components.Base;
+using HealthcareManager.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Diagnostics.CodeAnalysis;

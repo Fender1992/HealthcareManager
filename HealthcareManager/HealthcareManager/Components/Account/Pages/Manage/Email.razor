@@ -1,4 +1,4 @@
-﻿@page "/Account/Manage/Email"
+@page "/Account/Manage/Email"
 
 @using System.ComponentModel.DataAnnotations
 @using System.Text
@@ -22,7 +22,7 @@
         <form @onsubmit="OnSendEmailVerificationAsync" @formname="send-verification" id="send-verification-form" method="post">
             <AntiforgeryToken />
         </form>
-        <EditForm Model="Input" FormName="change-email" OnValidSubmit="OnValidSubmitAsync" method="post">
+        <EditForm Model="Input" FormName="change-email" OnValidSubmit="OnValidSubmit_Async" method="post">
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert" />
             @if (isEmailConfirmed)
@@ -74,7 +74,7 @@
         Input.NewEmail ??= email;
     }
 
-    private async Task OnValidSubmitAsync()
+    private async Task OnValidSubmit_Async()
     {
         if (Input.NewEmail is null || Input.NewEmail == email)
         {

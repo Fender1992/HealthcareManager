@@ -1,0 +1,29 @@
+@using System.Reflection
+<CardFooter Class="@(Class)">
+    <TelerikStackLayout Orientation="StackLayoutOrientation.Horizontal" HorizontalAlign="StackLayoutHorizontalAlign.Stretch" VerticalAlign="StackLayoutVerticalAlign.Bottom">
+        @if(AppState._currentUser != null)
+        {
+            <div style="text-align:left">Welcome @(AppState._currentUser.LastName), @(AppState._currentUser.FirstName)</div>
+        }
+        <div style="text-align:right">Version: @(GetAppVersion())</div>
+    </TelerikStackLayout>
+</CardFooter>
+@code{
+    [CascadingParameter]
+    private AppState AppState { get; set; } = new AppState();
+    [Parameter]
+    public string Class { get; set; } = "";
+    public static string _appVersion = "1.0.0";
+    public string AppVersion
+    {
+        get => _appVersion;
+        set
+        {
+            _appVersion = value;
+        }
+    }
+    public static string GetAppVersion()
+    {
+        return _appVersion;
+    }
+}

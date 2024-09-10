@@ -1,4 +1,4 @@
-﻿@page "/Account/LoginWithRecoveryCode"
+@page "/Account/LoginWithRecoveryCode"
 
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
@@ -20,7 +20,7 @@
 </p>
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="Input" FormName="login-with-recovery-code" OnValidSubmit="OnValidSubmitAsync" method="post">
+        <EditForm Model="Input" FormName="login-with-recovery-code" OnValidSubmit="OnValidLogin_With_Recovery_Code" method="post">
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
@@ -50,7 +50,7 @@
             throw new InvalidOperationException("Unable to load two-factor authentication user.");
     }
 
-    private async Task OnValidSubmitAsync()
+    private async Task OnValidLogin_With_Recovery_Code()
     {
         var recoveryCode = Input.RecoveryCode.Replace(" ", string.Empty);
 

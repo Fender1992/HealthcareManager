@@ -1,4 +1,4 @@
-﻿@page "/Account/Manage/DeletePersonalData"
+@page "/Account/Manage/DeletePersonalData"
 
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
@@ -23,7 +23,7 @@
 </div>
 
 <div>
-    <EditForm Model="Input" FormName="delete-user" OnValidSubmit="OnValidSubmitAsync" method="post">
+    <EditForm Model="Input" FormName="delete-user" OnValidSubmit="OnValidDelete_User" method="post">
         <DataAnnotationsValidator />
         <ValidationSummary class="text-danger" role="alert" />
         @if (requirePassword)
@@ -56,7 +56,7 @@
         requirePassword = await UserManager.HasPasswordAsync(user);
     }
 
-    private async Task OnValidSubmitAsync()
+    private async Task OnValidDelete_User()
     {
         if (requirePassword && !await UserManager.CheckPasswordAsync(user, Input.Password))
         {

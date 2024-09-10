@@ -1,0 +1,30 @@
+@inherits LayoutComponentBase
+
+<TelerikRootComponent>
+    <TelerikTooltip TargetSelector=".tooltip-target" Width="auto" Position="@(TooltipPosition.Top)" Height="auto" />
+    <ErrorBoundary>
+        <TelerikGridLayout Class="k-mr-4" ColumnSpacing="1rem">
+
+            <GridLayoutColumns>
+                <GridLayoutColumn Width="6rem"></GridLayoutColumn>
+                <GridLayoutColumn Width="auto"></GridLayoutColumn>
+            </GridLayoutColumns>
+            <GridLayoutRows>
+                <GridLayoutRow Height="98vh"></GridLayoutRow>
+            </GridLayoutRows>
+            <GridLayoutItems>
+                <GridLayoutItem Column="1" Row="1">
+                    <div class="sidebar">
+                        <NavMenu />
+                    </div>
+                </GridLayoutItem>
+                <GridLayoutItem >
+                    <div class="main-content">
+                        @Body
+                    </div>
+                    <MainFooter></MainFooter>
+                </GridLayoutItem>
+            </GridLayoutItems>
+        </TelerikGridLayout>
+    </ErrorBoundary>
+</TelerikRootComponent>

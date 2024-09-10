@@ -1,3 +1,4 @@
+@using HealthcareManager.Components.Layout
 @implements IDisposable
 
 @inject NavigationManager NavigationManager
@@ -80,6 +81,11 @@
                         <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
                     </NavLink>
                 </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" onclick="LogInSuper">
+                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Super User
+                    </NavLink>
+                </div>
             </NotAuthorized>
         </AuthorizeView>
     </nav>
@@ -87,6 +93,8 @@
 
 @code {
     private string? currentUrl;
+    private ILogger<NavMenu> logger { get; set; }
+    private AppState AppState { get; set; }
 
     protected override void OnInitialized()
     {
@@ -103,5 +111,26 @@
     public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+    public async void LogInSuper()
+    {
+        string email = String.Empty;
+        string password = string.Empty;
+
+        try
+        {
+            email = "Testemail@gmail.com";
+            password = "Password!1";
+            await AppState.SetSessionAsync<ApplicationUser>(email, password);
+
+            await AppState.GetCurrentUser(true);
+
+            NavigationManager.NavigateTo("/");
+        }
+        catch(Exception ex)
+        {
+            logger.LogError(ex, ex.Message);
+        }
+
     }
 }

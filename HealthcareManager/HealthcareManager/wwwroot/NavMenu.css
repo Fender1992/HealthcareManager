@@ -1,0 +1,109 @@
+/* Layout container for nav menu and main content */
+.app-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+.navbar-brand {
+    font-size: 1.2rem; /* Increase font size */
+    font-weight: bold; /* Bold the text */
+    color: #4CAF50; 
+    text-decoration: none; /* Remove underline */
+    padding-left: 1rem; /* Add padding to the left */
+    letter-spacing: 1px; /* Add slight letter spacing */
+    text-transform: uppercase; /* Make text uppercase */
+    transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+}
+
+    .navbar-brand:hover {
+        color: #d1d1d1; /* Slightly lighter color on hover */
+        transform: scale(1.05); /* Scale up slightly on hover */
+    }
+
+/* Navigation menu styles */
+.nav-scrollable {
+    background-color: #004085;
+    width: 10vw; /* Takes up 1/5 of the screen width */
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed; /* Keep the nav fixed */
+    top: 3.5rem; /* Adjusts for the top navbar */
+    left: 0;
+    transition: transform 0.3s ease; /* Smooth transition for toggling */
+}
+
+/* Main content area - pushed over to make room for the nav menu */
+.main-content {
+    margin-left: 5vw; /* Shift content to make space for the nav menu */
+    width: 100%; /* Adjust width to fill remaining space */
+    padding: 2rem;
+    background-color: #f9f9f9; /* Optional background for content area */
+}
+
+/* Mobile styles */
+@media (max-width: 640px) {
+    .nav-scrollable {
+        width: 0; /* Hidden by default on mobile */
+        transform: translateX(-100%); /* Slide out of view */
+    }
+
+    .navbar-toggler:checked ~ .nav-scrollable {
+        transform: translateX(0); /* Slide in when toggled */
+        width: 80vw; /* Make it take up most of the screen when visible */
+    }
+
+    .main-content {
+        margin-left: 0; /* Full width on mobile */
+        width: 100vw; /* Full width for content */
+    }
+}
+
+/* Styling for nav items */
+.nav-item {
+    margin: 1rem 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+}
+
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.3);
+        color: white;
+    }
+
+.bi {
+    margin-right: 10px;
+    font-size: 1.25rem;
+}
+
+/* Navbar toggle for mobile */
+.navbar-toggler {
+    appearance: none;
+    cursor: pointer;
+    width: 3.5rem;
+    height: 2.5rem;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.55)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
+    display: block;
+    z-index: 9999;
+}
+
+    .navbar-toggler:checked ~ .nav-scrollable {
+        display: block;
+        transform: translateX(0);
+    }
